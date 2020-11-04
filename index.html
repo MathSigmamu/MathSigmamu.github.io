@@ -734,7 +734,13 @@ console.log(geo.faceVertexUvs[0][i])
           Overhang: overhang,
           BoardThickness: MaterialThickness,
           RenderMode:wireframe,
-          Parts:function(){partMode=!partMode}
+          Parts:function(){if(partMode){
+            partMode= false
+          }
+          else{
+            partMode = true;
+          }
+        }
         };
         const datGui  = new dat.GUI({ autoPlace: true });
           datGui.add(params,'Height').onChange(function(nv){
