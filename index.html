@@ -747,13 +747,13 @@ console.log(geo.faceVertexUvs[0][i])
             shedD =parseFloat(nv);
             createGeom();
           });
-          datGui.add(params,'Width').min(0.6).max(1).step(0.01).onChange(function(nv){
+          datGui.add(params,'Width').onChange(function(nv){
 
             shedW =parseFloat(nv);
             createGeom();
           });;
 
-          datGui.add(params,'AngleP').onChange(function(nv){
+          datGui.add(params,'AngleP').min(0.6).max(1).step(0.01).onChange(function(nv){
 
             propH =parseFloat(nv);
             createGeom();
