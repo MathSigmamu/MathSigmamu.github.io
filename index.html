@@ -179,6 +179,7 @@ base.holes =h;
 if(partMode){
   console.log(prts)
 layout(prts);
+return;
 }
 
 
@@ -740,6 +741,7 @@ console.log(geo.faceVertexUvs[0][i])
           else{
             partMode = true;
           }
+          console.log(partMode);
         }
         };
         const datGui  = new dat.GUI({ autoPlace: true });
