@@ -176,12 +176,10 @@ base.holes =h;
 
 
 
-if(partMode==true){
+if(partMode){
   console.log(prts)
 layout(prts);
-return;
 }
-else{
 
 
 side1geometry = new THREE.ExtrudeBufferGeometry(side1,extrudeSettings);
@@ -247,7 +245,7 @@ scene.add(lsidemesh2)
 scene.add(sm2);
 scene.add(basemesh);
 
-}
+
 }
 
 
@@ -736,14 +734,7 @@ console.log(geo.faceVertexUvs[0][i])
           Overhang: overhang,
           BoardThickness: MaterialThickness,
           RenderMode:wireframe,
-          Parts:function(){if(partMode){
-            partMode= false
-          }
-          else{
-            partMode = true;
-          }
-          console.log(partMode);
-        }
+          Parts:partMode
         };
         const datGui  = new dat.GUI({ autoPlace: true });
           datGui.add(params,'Height').onChange(function(nv){
@@ -785,7 +776,12 @@ console.log(geo.faceVertexUvs[0][i])
             createGeom();
           });
 
-          datGui.add(params,'Parts')
+          datGui.add(params,'Parts').onChange(function(nv){
+
+            partMode =nv ;
+            console.log(typeof(nv));
+            createGeom();
+          });
            datGui.domElement.id = 'gui'
 
 
