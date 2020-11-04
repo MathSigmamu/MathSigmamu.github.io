@@ -295,7 +295,7 @@ normalizeUVs(geotest.geometry);
 console.log(geotest);
   }
   geotest.position.x= (window.innerWidth/list.length/2)-(window.innerWidth/2)+((window.innerWidth/list.length)*i+1);
-  
+
   scene.add(geotest);
 
 
@@ -747,7 +747,7 @@ console.log(geo.faceVertexUvs[0][i])
             shedD =parseFloat(nv);
             createGeom();
           });
-          datGui.add(params,'Width').onChange(function(nv){
+          datGui.add(params,'Width').min(0.6).max(1).step(0.01).onChange(function(nv){
 
             shedW =parseFloat(nv);
             createGeom();
