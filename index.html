@@ -1,794 +1,1219 @@
-<html>
+
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title>testing</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" ID = "View">
+    <meta name="author" content="Math Whittaker">
+
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <title>Math Whittaker Design </title>
+
+
+    <!-- Bootstrap core CSS -->
+<link href="bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Favicons -->
+
+<meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#563d7c">
+<style>
+
+
+div.container {
+  max-width: 2000px;
+  margin: auto;
+  height = 100px;
+  border: 3px solid #73AD21;
+}
+
+
+
+
+
     <style>
-    			body { margin: 0; }
-    			canvas { display: block; }
-    		</style>
 
-  </head>
-  <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r122/three.min.js"></script>
-<script src ="https://threejs.org/examples/js/controls/OrbitControls.js"></script>>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js" integrity="sha512-LF8ZB1iTwi4Qvkm4pekHG4a437Y9Af5ZuwbnW4GTbAWQeR2E4KW8WF+xH8b9psevV7wIlDMx1MH9YfPqgKhA/Q==" crossorigin="anonymous"></script>
-<script src ="HDRCubeTextureLoader.js"></script>
-<script src ="RGBELoader.js"></script>
-    </script>
-
-    </script>
-    <script >
-
-let container;
-let scene;
-let camera;
-let render;
-let ambientlight;
-let light;
-  let MCsolver;
-var shedW =2860;
-var shedD = 5100;
-var shedH=2400;
-var propH = 1.00;
-var overhang =100;
-var MaterialThickness =25;
-var base, basegeometry, basemesh;
-var side1,side1geometry,side1mesh;
-var lside,lsidegeometry,lsidemesh;
-var side2, side2geometry,side2mesh;
-var doorW, doorH;
-var toothw =50;
-var hdrCubeMap;
-doorW = 762;
-doorH = 1981;
-var windowW = 1000;
-var windowH = 200;
-var wireframe = true;
-var lineMat;
-var partMode = true;
-var partcamera;
-
-var controls;
-var meshColor =  new THREE.MeshPhongMaterial();
-meshColor.shadowSide= THREE.DoubleSide;
-meshColor.color = new THREE.Color( '#C19A6B');
-meshColor.side = THREE.DoubleSide;
-
-meshColor.wireframe= false;
-meshColor.wireframeLinewidth = 10;
-init();
-function onLoad(){
-
+    @font-face {
+      font-family: "main";
+      src: url("./fonts/Anton-Regular.eot"); /* IE9 Compat Modes */
+  src: url("./fonts/Anton-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("./fonts/Anton-Regular.otf") format("opentype"), /* Open Type Font */
+    url("./fonts/Anton-Regular.svg") format("svg"), /* Legacy iOS */
+    url("./fonts/Anton-Regular.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("./fonts/Anton-Regular.woff") format("woff"), /* Modern Browsers */
+    url("./fonts/Anton-Regular.woff2") format("woff2"); /* Modern Browsers */
 }
-      function init(){
-
-createGUI();
-const aotex =  new THREE.TextureLoader().load('mattext/ao.jpg' );
-const roughtex = new THREE.TextureLoader().load('mattext/rough.jpg' );
-const difftex = new THREE.TextureLoader().load('plywood2.jpg' );
-const norm = new THREE.TextureLoader().load('mattext/norm.jpg' );
-const btex = new THREE.TextureLoader().load('mattext/background.jpg' );
-//texture.wrapT = THREE.RepeatWrapping;
-//texture.mapping = THREE.CubeUVReflectionMapping;
-//texture.needsUpdate = true;
-lineMat = new THREE.LineBasicMaterial( { color: 000000	, linewidth: 2 } );
-var hdrCubeRenderTarget;
-const hdrUrls = [ 'scene.hdr' ];
-hdrCubeMap = new THREE.HDRCubeTextureLoader()
-					.setPath( './' )
-					.setDataType( THREE.UnsignedByteType )
-					.load( hdrUrls, function () {
-
-						hdrCubeRenderTarget = pmremGenerator.fromCubemap( hdrCubeMap );
-
-						hdrCubeMap.magFilter = THREE.LinearFilter;
-						hdrCubeMap.needsUpdate = true;
-
-					} );
-
-//texture.repeat.set(5, 5);
-
-        meshColor = new THREE.MeshPhongMaterial(  );
-        container = document.createElement( 'div' );
-        meshColor.side = THREE.DoubleSide;
-        meshColor.color.convertSRGBToLinear();
-        meshColor.roughnessMap = roughtex;
-        meshColor.aoMap = aotex;
-        meshColor.normalMap = norm
-        meshColor.map = difftex;
-      //  meshColor.envMap =btex
-
-        				//document.body.appendChild( container );
-width = window.innerWidth;
-height = window.innerHeight;
-        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000000 );
-        partcamera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0, 1000 );
-        camera.position.z = 0;
-        camera.position.y=-1000;
-			camera.position.set( 100, 1000, 2500 );
-      render = new THREE.WebGLRenderer( { antialias: true } );
-      console.log(render)
-      render.setSize(window.innerWidth, window.innerHeight);
-      				render.setPixelRatio( window.devicePixelRatio );
-      				render.setSize( window.innerWidth, window.innerHeight );
-              document.body.appendChild(render.domElement);
-
-      scene = new THREE.Scene();
-
-
-
-      		//	scene.background = btex;
-
-            light = new THREE.DirectionalLight( 0xffffff );
-            //			light.position.set( 0.5, 0.5, 1 );
-            	//		scene.add( light );
-
-            			ambientLight = new THREE.AmbientLight( '#FFFFFF'  );
-
- controls = new THREE.OrbitControls( camera, render.domElement );
-controls.update();
-createGeom();
-      }
-
-function createGeom(){
-  scene = new THREE.Scene();
-  scene.add(ambientLight);
-  scene.background = new THREE.Color(   0xffffff );
-
-  //scene.add(light);
-  var rlength = Math.sqrt(Math.pow(shedH*(1-propH),2)+Math.pow(shedW/2,2))+overhang;
-  var points = [new THREE.Vector2(-(MaterialThickness/2)-shedW/2,-(MaterialThickness/2)-shedD/2),new THREE.Vector2((MaterialThickness/2)+shedW/2,-(MaterialThickness/2)-shedD/2),new THREE.Vector2((MaterialThickness/2)+shedW/2,(MaterialThickness/2)+shedD/2),new THREE.Vector2(-(MaterialThickness/2)-shedW/2,(MaterialThickness/2)+shedD/2)];
-  var points2 =[new  THREE.Vector2(-shedW/2,-shedH/2),new THREE.Vector2(-(doorW/2),-shedH/2),new THREE.Vector2(-(doorW/2),(-shedH/2)+doorH),new THREE.Vector2(doorW/2,(-shedH/2)+doorH),new THREE.Vector2(doorW/2,-(shedH/2)), new THREE.Vector2(shedW/2,-(shedH/2)),new THREE.Vector2(shedW/2,(-shedH/2)+shedH*propH),new THREE.Vector2(0,shedH/2),new THREE.Vector2(-shedW/2,(-shedH/2)+shedH*propH)]
-  var points3 = inserts(new  THREE.Vector2((-shedD/2)+MaterialThickness,0),new THREE.Vector2((shedD/2)-MaterialThickness,0),new THREE.Vector2((shedD/2)-MaterialThickness,shedH*propH),new THREE.Vector2((-shedD/2)+MaterialThickness,shedH*propH),true,true,false,true)
-  var points4 = [new  THREE.Vector2(-shedW/2,-(shedH/2)),new THREE.Vector2(-shedW/2,(-shedH/2)+shedH*propH),new THREE.Vector2(0,shedH/2),new THREE.Vector2(shedW/2,(-shedH/2)+shedH*propH),new THREE.Vector2(shedW/2,-shedH/2)]
-  var roof1P = [new  THREE.Vector2((-shedD/2)-overhang,0),new THREE.Vector2((shedD/2)+overhang,0),new THREE.Vector2((shedD/2)+overhang,rlength+MaterialThickness),new THREE.Vector2((-shedD/2)-overhang,rlength+MaterialThickness)]
-  var roof2P = [new  THREE.Vector2((-shedD/2)-overhang,0),new THREE.Vector2((shedD/2)+overhang,0),new THREE.Vector2((shedD/2)+overhang,rlength),new THREE.Vector2((-shedD/2)-overhang,rlength)]
-var transvec = new THREE.Vector3(0-shedW/2,shedH-(shedH*propH),0);
-var top = new THREE.Vector3(0,shedH,0);
-var edge = new THREE.Vector3(0,shedH*propH,0);
-transvec.subVectors(top,edge)
-transvec.normalize();
-//transvec.multiplyScalar(MaterialThickness);
-
-
-var prts = [];
-  base = new THREE.Shape(points);
-  var h= createHoles(new THREE.Vector2(-MaterialThickness-shedW/2,-MaterialThickness-shedD/2),new THREE.Vector2(MaterialThickness+shedW/2,-MaterialThickness-shedD/2),new THREE.Vector2(MaterialThickness+shedW/2,MaterialThickness+shedD/2),new THREE.Vector2(-MaterialThickness-shedW/2,MaterialThickness+shedD/2),true,true,true,true)
-base.autoClose=true;
-base.holes =h;
-  side1 = new THREE.Shape(points2);
-  side2 = new THREE.Shape(points4);
-  var s2 = new THREE.Shape(points4);
-  var r1 = new THREE.Shape(roof1P);
-  var r2 = new THREE.Shape(roof2P)
-  lside = new THREE.Shape(points3);
-  const extrudeSettings = { depth: MaterialThickness, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
-  const extrudeSettingsrev = { depth: -MaterialThickness, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
-  console.log(base);
-  prts.push(base);
-  prts.push(side1);
-  prts.push(lside);
-  prts.push(s2);
-  prts.push(r1);
-  prts.push(r2);
-  prts.push(lside);
-
-
-
-
-if(partMode){
-  console.log(prts)
-layout(prts);
+*{
+  font-family: Anton-Regular;
 }
 
 
-side1geometry = new THREE.ExtrudeBufferGeometry(side1,extrudeSettings);
-var sg2 = new THREE.ExtrudeBufferGeometry(s2,extrudeSettings);
-
-var rg1 = new THREE.ExtrudeBufferGeometry(r1,extrudeSettingsrev);
-var rg2 = new THREE.ExtrudeBufferGeometry(r2,extrudeSettings);
-
-  basegeometry = new THREE.ExtrudeBufferGeometry( base, extrudeSettings );
-  lsidegeometry = new THREE.ExtrudeBufferGeometry(lside, extrudeSettings);
-
-if(wireframe){
-  basemesh =ConvWire( basegeometry);
-  side1mesh = ConvWire(side1geometry);
-  lsidemesh = ConvWire(lsidegeometry);
-  sm2 = ConvWire(sg2);
-  rm1 = ConvWire(rg1);
-  rm2 = ConvWire(rg2);
-}
-else{
-  normalizeUVs(basegeometry);
-  normalizeUVs(side1geometry);
-  normalizeUVs(lsidegeometry);
-  normalizeUVs(sg2);
-  normalizeUVs(rg1);
-  normalizeUVs(rg2);
-
-
-  basemesh = new THREE.Mesh( basegeometry, meshColor );
-  side1mesh = new THREE.Mesh(side1geometry,meshColor);
-  lsidemesh = new THREE.Mesh(lsidegeometry,meshColor);
-  sm2 = new THREE.Mesh(sg2,meshColor);
-  rm1 = new THREE.Mesh(rg1,meshColor);
-  rm2 = new THREE.Mesh(rg2,meshColor);
-}
-//// Repositioning ////
-side1mesh.position.z = -shedD/2;
-lsidemesh.rotation.y = Math.PI/2;
-sm2.position.y=shedH/2;
-side1mesh.position.y=shedH/2;
-lsidemesh.position.x = (-shedW/2)+MaterialThickness;
-var lsidemesh2 = lsidemesh.clone();
-lsidemesh2.position.x = (shedW/2)-(MaterialThickness*2);
-var vx = new THREE.Vector3(1,0,0);
-basemesh.rotation.x = Math.PI/2;
-sm2.position.z = (shedD/2)-MaterialThickness;
-rm1.rotateY( Math.PI/2);
-rm1.rotateX(  -Math.atan((shedW/2)/(shedH*(1-propH)))-Math.PI);
-rm1.position.y=(shedH);
-rm2.rotateY( Math.PI/2);
-rm2.rotateX(  Math.atan((shedW/2)/(shedH*(1-propH)))+Math.PI);
-rm2.position.y=(shedH);
-rm1.translateOnAxis(transvec,-25);
-
-//// Wireframe Rendering////
-
-
-scene.add(lsidemesh);
-scene.add(side1mesh);
-scene.add(rm1);
-scene.add(rm2);
-scene.add(lsidemesh2)
-scene.add(sm2);
-scene.add(basemesh);
-
-
-}
+    </style>
 
 
 
-function layout(list){
 
-for (var i = 0; i < list.length; i++) {
 
-console.log(list[i]);
+  <div position = 'absolute' class = "container" id="canvas" width="100%"  style="border:1px solid">
+</canvas>
 
-  var geotest = new THREE.ShapeGeometry(list[i]);
-  geotest.computeBoundingBox();
-  var min = geotest.boundingBox.min;
-  var max = geotest.boundingBox.max;
-  var middle = new THREE.Vector3().subVectors(max,min);
-  var scale = (window.innerWidth/(list.length+1))/Math.max(max.x-min.x,max.y-min.y);
 
-  if(list[i].holes.length>0&& wireframe){
-    for(var u =0; u<list[i].holes.length;u++){
-      geotest =  new THREE.ShapeGeometry(list[i].holes[u]);
-      geotest.scale(scale,scale,scale);
-    geotest = ConvWire(geotest);
-    geotest.position.x =  (window.innerWidth/list.length/2)-(window.innerWidth/2)+((window.innerWidth/list.length)*i+1);
-      scene.add(geotest);
+
+
+
+
+    <script type="module">
+import * as THREE from "../libraries/three.module.js";
+import { DRACOLoader } from '../libraries/DRACOLoader.js';
+import { OrbitControls } from "../libraries/OrbitControls.js";
+import { RGBELoader } from '../libraries/RGBELoader.js';
+
+var modelNames =  ["LeftShoulder","RightShoulder","LeftWrist","RightWrist","LeftElbow","RightElbow","LeftKnee","RightKnee","LeftShin","RightShin","Body","Protractor","Needle","WidthArrow","LengthArrow","Pressure"]
+var modelButtons = [true, true, true,true,true,true,true,true,false,false,false,false,false,false,false,false ];
+var models = [];
+var canvas = document.createElement("canvas");
+    // Get WebGLRenderingContext from canvas element.
+    var gl = canvas.getContext("webgl")
+      || canvas.getContext("experimental-webgl");
+    // Report the result.
+    if (gl && gl instanceof WebGLRenderingContext) {
+
+      console.log(  "Congratulations! Your browser supports WebGL.");
+    } else {
+      console.log("Failed to get WebGL context. "
+        + "Your browser or device may not support WebGL.");
     }
-    list[i].holes.length =0;
-    console.log(base);
-    geotest = new THREE.ShapeGeometry(list[i]);
+    //console.log(Stats);
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+var template ;
+var renderer;
+var camera;
+var scene;
+var controls;
+var mesh;
+var thrbool =false;
+var simB = false;
+var geo;
+var simV =0;
+var simA = 0.03;
+var sheetw = 5;
+var sheeth = 10;
+var spacex = 1;
+var spacey =0.5;
+var countx = (sheetw/spacex);
+var county = (sheeth/spacey);
+var count = (sheetw/spacex)*(sheeth/spacey);
+var drawingSurface = document.getElementById( 'canvas' );  ;
+drawingSurface.height =  (drawingSurface.width/16)*9
+
+var dracoloader = new DRACOLoader();
+dracoloader.setDecoderPath( '/libraries/decoders/' );
+dracoloader.preload();
+var num =2
+var rectLight;
+var light;
+var width = drawingSurface.clientWidth;
+var height = drawingSurface.clientHeight;
+var bodySVG;
+var simangle;
+var elbox;
+var inputname = "angle";
+var angleInput;
+var pressureInput;
+var widthInput;
+var lengthInput
+var anglebutton;
+var pressurebutton
+var lengthbutton;
+var warrowSVG;
+var widthbutton;
+var meshscale = 10;
+var larrowSVG;
+var pressureSVG;
+var protractorSVG;
+var siliconMaterial;
+var plaMaterial;
+var ResinMaterial;
+var CFMaterial
+
+ThreeSetup();
+createSet();
+createMaterials();
+
+loadGeom();
+animate();
+createHTMLElements();
+  var titleBar;
+var colorPicker;
+function createHTMLElements(){
+
+  var elewidth  = elbox.width/7.5;
+  var eleheight = elbox.height/15;
+  var yposinput = elbox.y +elbox.height*0.8+'px';
+  var xposinput = elbox.x +(elbox.width/2)+(elewidth*0.1)+'px';
+  var xposbutton = elbox.x +(elbox.width/2)-elewidth-(elewidth*0.1)+'px';
+  var yposbutton = elbox.y+(elbox.height*0.8)+'px';
+  var borderw = eleheight/15+'px';
+
+
+
+
+  titleBar =  document.createElement('P');
+  titleBar.innerHTML = "Please select area on body";
+  titleBar.style.position = 'absolute'
+  titleBar.style.fontSize =  elewidth/5+'px'
+  titleBar.style.top = eleheight/2+'px'
+  titleBar.style.color = "#00FFBC"
+  titleBar.style.textAlign = 'center';
+  titleBar.style.left = '50%'
+  titleBar.style.transform=  'translateX(-50%)';
+  drawingSurface.appendChild(titleBar)
+
+  /////////////////// SVGs//////////////////////////
+  protractorSVG = document.getElementById('Protractor');
+  protractorSVG.setAttribute("height",elbox.height*0.6+'px')
+  protractorSVG.setAttribute("width",elbox.width+'px')
+  protractorSVG.style.position= 'absolute';
+  protractorSVG.style.top=elbox.height*0.1+'px'
+
+  pressureSVG = document.getElementById('pressure');
+  pressureSVG.setAttribute("height",elbox.height*0.6+'px')
+  pressureSVG.setAttribute("width",elbox.width+'px')
+  pressureSVG.style.position= 'absolute';
+  pressureSVG.style.top=elbox.height*0.1+'px'
+
+  warrowSVG = document.getElementById('widthArrow');
+  warrowSVG.setAttribute("height",elbox.height*0.6+'px')
+  warrowSVG.setAttribute("width",elbox.width+'px')
+  warrowSVG.style.position= 'absolute';
+  warrowSVG.style.top=elbox.height*0.1+'px'
+
+  larrowSVG = document.getElementById('lengthArrow');
+  larrowSVG.setAttribute("height",elbox.height*0.6+'px')
+  larrowSVG.setAttribute("width",elbox.width+'px')
+  larrowSVG.style.position= 'absolute';
+  larrowSVG.style.top=elbox.height*0.1+'px'
+
+  bodySVG = document.getElementById('bodySVG');
+  bodySVG.setAttribute("height",elbox.height*0.6+'px')
+  bodySVG.setAttribute("width",elbox.width+'px')
+  bodySVG.style.position= 'absolute';
+  bodySVG.style.top=elbox.height*0.1+'px'
+
+  bodySVG.children[0].onmouseover=function(){hoverover(bodySVG.children[0])}
+  bodySVG.children[0].onmouseleave=function(){leave(bodySVG.children[0])}
+  bodySVG.children[1].onmouseleave=function(){leave(bodySVG.children[1])}
+  bodySVG.children[1].onmouseover=function(){hoverover(bodySVG.children[1])}
+  bodySVG.children[2].onmouseover=function(){hoverover(bodySVG.children[2])}
+  bodySVG.children[2].onmouseleave=function(){leave(bodySVG.children[2])}
+  bodySVG.children[3].onmouseleave=function(){leave(bodySVG.children[3])}
+  bodySVG.children[3].onmouseover=function(){hoverover(bodySVG.children[3])}
+  bodySVG.children[6].onmouseover=function(){hoverover(bodySVG.children[6])}
+  bodySVG.children[6].onmouseleave=function(){leave(bodySVG.children[6])}
+  bodySVG.children[7].onmouseleave=function(){leave(bodySVG.children[7])}
+  bodySVG.children[7].onmouseover=function(){hoverover(bodySVG.children[7])}
+  bodySVG.children[9].onmouseleave=function(){leave(bodySVG.children[9])}
+  bodySVG.children[9].onmouseover=function(){hoverover(bodySVG.children[9])}
+  bodySVG.children[10].onmouseover=function(){hoverover(bodySVG.children[10])}
+  bodySVG.children[10].onmouseleave=function(){leave(bodySVG.children[10])}
+  bodySVG.children[0].onclick = function(){bodySVG.style.display = 'none';anglebutton.style.display = 'block'; angleInput.style.display ='block'; protractorSVG.style.display = 'block';  titleBar.innerHTML = 'Please enter locking angle below in degrees'};
+  bodySVG.children[1].onclick = function(){bodySVG.style.display = 'none'; anglebutton.style.display = 'block'; angleInput.style.display ='block'; protractorSVG.style.display = 'block';  titleBar.innerHTML = 'Please enter locking angle below in degrees'};
+  bodySVG.children[2].onclick = function(){bodySVG.style.display = 'none'; anglebutton.style.display = 'block'; angleInput.style.display ='block'; protractorSVG.style.display = 'block';  titleBar.innerHTML = 'Please enter locking angle below in degrees'};
+  bodySVG.children[3].onclick = function(){bodySVG.style.display = 'none'; anglebutton.style.display = 'block'; angleInput.style.display ='block'; protractorSVG.style.display = 'block';  titleBar.innerHTML = 'Please enter locking angle below in degrees' };
+  bodySVG.children[6].onclick = function(){bodySVG.style.display = 'none'; anglebutton.style.display = 'block'; angleInput.style.display ='block'; protractorSVG.style.display = 'block';  titleBar.innerHTML = 'Please enter locking angle below in degrees'};
+  bodySVG.children[7].onclick = function(){bodySVG.style.display = 'none'; anglebutton.style.display = 'block'; angleInput.style.display ='block'; protractorSVG.style.display = 'block' ;  titleBar.innerHTML = 'Please enter locking angle below in degrees'};
+  bodySVG.children[9].onclick = function(){bodySVG.style.display = 'none'; anglebutton.style.display = 'block'; angleInput.style.display ='block'; protractorSVG.style.display = 'block';  titleBar.innerHTML = 'Please enter locking angle below in degrees'};
+  bodySVG.children[10].onclick = function(){bodySVG.style.display = 'none'; anglebutton.style.display = 'block'; angleInput.style.display ='block'; protractorSVG.style.display = 'block';  titleBar.innerHTML = 'Please enter locking angle below in degrees' };
+  bodySVG.style.display = 'block'
+
+    /////////////////// Inputs//////////////////////////
+    colorPicker = document.createElement("INPUT");
+    colorPicker.setAttribute("type","color");
+    colorPicker.id  = 'picker';
+    drawingSurface.appendChild(colorPicker);
+    colorPicker.onchange = function(){
+      console.log("0x" +colorPicker.value.substring(1));
+      siliconMaterial.color = new THREE.Color(colorPicker.value);;
+    }
+  angleInput = document.createElement("INPUT");
+ angleInput.setAttribute("type", "number");
+ //angleInput.setAttribute("step", "0.10")
+ angleInput.setAttribute("min",'0')
+ angleInput.style.left =xposinput
+ angleInput.style.position = 'absolute';
+angleInput.setAttribute('placeholder', 'please enter angle here')
+ angleInput.style.top = yposinput;
+ angleInput.style.width = elewidth+'px';
+ angleInput.style.height = eleheight+'px';
+ angleInput.id = 'angleInput';
+ angleInput.style.color = '#092AB3'
+angleInput.style.borderColor = '#092AB3'
+angleInput.style.borderRadius = '5px'
+angleInput.style.borderWidth = borderw
+ angleInput.style.background = 'transparent'
+ angleInput.style.textAlign = "Left";
+angleInput.style.display = 'none';
+angleInput.style.fontSize = elewidth/12+'px';
+
+
+pressureInput = document.createElement("INPUT");
+pressureInput.setAttribute("type", "number");
+pressureInput.setAttribute("min",'0')
+pressureInput.style.left =xposinput
+pressureInput.style.position = 'absolute';
+pressureInput.setAttribute('placeholder', 'please enter pressure here')
+pressureInput.style.top =yposinput
+pressureInput.style.width =  elewidth+'px';
+pressureInput.style.height = eleheight+'px';
+pressureInput.id = 'pressureInput';
+pressureInput.style.color = '#092AB3'
+pressureInput.style.borderColor = '#092AB3'
+pressureInput.style.borderRadius = borderw
+pressureInput.style.borderWidth = '5px'
+pressureInput.style.background = 'transparent'
+pressureInput.style.textAlign = "Left";
+pressureInput.style.display = 'none';
+pressureInput.style.fontSize = elewidth/12+'px';
+
+widthInput = document.createElement("INPUT");
+widthInput.setAttribute("type", "number");
+widthInput.setAttribute("min",'0')
+widthInput.style.left =xposinput
+widthInput.style.position = 'absolute';
+widthInput.setAttribute('placeholder', 'please enter width here')
+widthInput.style.top = yposinput
+widthInput.style.width =  elewidth+'px';
+widthInput.style.height = eleheight+'px';
+widthInput.id = 'widthInput';
+widthInput.style.color = '#092AB3'
+widthInput.style.borderColor = '#092AB3'
+widthInput.style.borderRadius = borderw
+widthInput.style.borderWidth = '5px'
+widthInput.style.background = 'transparent'
+widthInput.style.textAlign = "Left";
+widthInput.style.display = 'none';
+widthInput.style.fontSize = elewidth/12+'px';
+
+lengthInput = document.createElement("INPUT");
+lengthInput.setAttribute("type", "number");
+lengthInput.setAttribute("min",'0')
+lengthInput.style.left =xposinput
+lengthInput.style.position = 'absolute';
+lengthInput.setAttribute('placeholder', 'please enter length here')
+lengthInput.style.top =yposinput
+lengthInput.style.width =  elewidth+'px';
+lengthInput.style.height = eleheight+'px';
+lengthInput.id = 'lengthInput';
+lengthInput.style.color = '#092AB3'
+lengthInput.style.borderColor = '#092AB3'
+lengthInput.style.borderRadius = borderw
+lengthInput.style.borderWidth = '5px'
+lengthInput.style.background = 'transparent'
+lengthInput.style.textAlign = "Left";
+lengthInput.style.display = 'none';
+lengthInput.style.fontSize = elewidth/12+'px';
+
+  /////////////////// Buttons//////////////////////////
+
+anglebutton = document.createElement("BUTTON")
+anglebutton.id = 'angle'
+anglebutton.style.left =xposbutton
+anglebutton.style.position = 'absolute';
+anglebutton.style.width =  elewidth+'px';
+anglebutton.style.height = eleheight+'px';
+anglebutton.innerHTML = "Confirm Angle";
+anglebutton.style.borderColor = 'transparent'
+anglebutton.style.background =  '#092AB3'
+anglebutton.style.borderWidth = borderw
+anglebutton.style.color = '#ff3d00';
+anglebutton.style.borderRadius = '5px'
+anglebutton.style.top = yposbutton
+anglebutton.style.display = 'none';
+anglebutton.onclick = function(){buttonfunc(anglebutton)};
+anglebutton.style.fontSize = elewidth/12+'px';
+
+
+widthbutton = document.createElement("BUTTON")
+widthbutton.id = 'width'
+widthbutton.style.left =xposbutton
+widthbutton.style.top =yposbutton
+widthbutton.style.position = 'absolute';
+widthbutton.style.width =  elewidth+'px';
+widthbutton.style.height = eleheight+'px';
+widthbutton.innerHTML = "Confirm Width";
+widthbutton.style.borderColor = 'transparent'
+widthbutton.style.background =  '#092AB3'
+widthbutton.style.borderWidth = borderw
+widthbutton.style.color = '#ff3d00';
+widthbutton.style.borderRadius = '5px'
+widthbutton.style.display = 'none';
+widthbutton.onclick = function(){buttonfunc(widthbutton)};
+widthbutton.style.fontSize = elewidth/12+'px';
+
+lengthbutton = document.createElement("BUTTON")
+lengthbutton.id = 'length'
+lengthbutton.style.left =xposbutton
+lengthbutton.style.position = 'absolute';
+lengthbutton.style.width =  elewidth+'px';
+lengthbutton.style.height = eleheight+'px';
+lengthbutton.innerHTML = "Confirm Length";
+lengthbutton.style.borderColor = 'transparent'
+lengthbutton.style.background =  '#092AB3'
+lengthbutton.style.borderWidth = borderw
+lengthbutton.style.color = '#ff3d00';
+lengthbutton.style.borderRadius = '5px'
+lengthbutton.style.top = yposbutton
+lengthbutton.style.display = 'none';
+lengthbutton.onclick = function(){buttonfunc(lengthbutton)};
+lengthbutton.style.fontSize = elewidth/12+'px';
+
+
+
+pressurebutton = document.createElement("BUTTON")
+pressurebutton.id = 'pressure'
+pressurebutton.style.left =xposbutton
+pressurebutton.style.position = 'absolute';
+pressurebutton.style.width =  elewidth+'px';
+pressurebutton.style.height = eleheight+'px';
+pressurebutton.innerHTML = "Confirm Pressure";
+pressurebutton.style.borderColor = 'transparent'
+pressurebutton.style.background =  '#092AB3'
+pressurebutton.style.borderWidth = borderw
+pressurebutton.style.color = '#ff3d00';
+pressurebutton.style.borderRadius = '5px'
+pressurebutton.style.borderColor = 'transparent'
+pressurebutton.style.top = yposbutton
+pressurebutton.style.display = 'none';
+pressurebutton.onclick = function(){buttonfunc(pressurebutton)};
+pressurebutton.style.fontSize = elewidth/12+'px';
+
+  /////////////////// Add to page //////////////////////////
+drawingSurface.appendChild(anglebutton);
+drawingSurface.appendChild(widthbutton);
+drawingSurface.appendChild(lengthbutton);
+drawingSurface.appendChild(pressurebutton);
+drawingSurface.appendChild(widthInput);
+drawingSurface.appendChild(angleInput);
+drawingSurface.appendChild(lengthInput);
+drawingSurface.appendChild(pressureInput);
+
+}
+function hoverover(obj){
+obj.style.fill = "#00FFBC";
+
+}
+function leave(obj){
+obj.style.fill ="#092AB3";
+
+}
+
+
+function bodyclicked (id){
+bodySVG.style.disply= 'none';
+
+}
+
+function buttonfunc(a){
+console.log(a.value)
+
+if(document.getElementById(a.id+'Input').value.length == 0 ){
+  document.getElementById(a.id+'Input').style.borderColor =  'white';
+
+  return;
+}
+
+switch(a.id){
+  case 'body':
+  inputname = 'body';
+
+
+  case "angle":
+inputname = "width";
+protractorSVG.style.display = 'none';
+warrowSVG.style.display = 'block';
+  widthbutton.style.display ='block';
+  widthInput.style.display = 'block';
+  anglebutton.style.display = 'none';
+  angleInput.style.display  = 'none'
+  simangle = (parseInt(document.getElementById('angleInput').value)/360)*(Math.PI*2);
+  console.log(document.getElementById('angleInput'));
+titleBar.innerHTML = 'Please enter desired width below in cm'
+
+  break;
+  case "width":
+  lengthbutton.style.display ='block';
+   warrowSVG.style.display = 'none';
+   larrowSVG.style.display = 'block';
+  inputname = 'length';
+  widthbutton.style.display = 'none';
+  widthInput.style.display = 'none';
+  lengthInput.style.display ='block';
+  sheetw = parseInt(document.getElementById('widthInput').value);
+  countx = (sheetw/spacex);
+  count = (sheetw/spacex)*(sheeth/spacey);
+  titleBar.innerHTML = 'Please enter desired length below in cm'
+  break;
+  case "length":
+  inputname = 'pressure';
+  pressurebutton.style.display ='block';
+  pressureInput.style.display = 'block';
+  lengthbutton.style.display = 'none';
+  lengthInput.style.display = 'none';
+
+  sheeth = parseInt(document.getElementById('lengthInput').value);
+  county = (sheeth/spacey);
+  count = (sheetw/spacex)*(sheeth/spacey);
+larrowSVG.style.display = 'none';
+pressureSVG.style.display = 'block'
+var string =  '2'
+string =string.sup();
+titleBar.innerHTML ='Please enter expected load below in nm'+string
+
+  break;
+
+  case 'pressure':
+  meshscale =  Math.ceil(parseInt(document.getElementById('pressureInput').value)/10);
+  if(meshscale>10){
+
+  }
+  pressurebutton.style.display = 'none';
+  pressureSVG.style.display = 'none';
+  pressureInput.style.display = 'none';
+  titleBar.style.display ='none';
+  meshscale =  Math.ceil(parseInt(document.getElementById('pressureInput').value)/10);
+  thrbool =true;
+  update();
+  break
+
+}
+
+
+
+}
+
+
+
+
+
+function ThreeSetup(){
+
+template = new THREE.Object3D();
+
+renderer = new THREE.WebGLRenderer(drawingSurface);
+renderer.shadowMap.enabled = true;
+//renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setSize(drawingSurface.clientWidth-20, ((drawingSurface.clientWidth)/16)*9);
+renderer.setClearColor (new THREE.Color(), 1  );
+
+drawingSurface.appendChild(renderer.domElement);
+elbox = renderer.domElement.getBoundingClientRect();
+
+camera = new THREE.PerspectiveCamera(45, (drawingSurface.clientWidth-20)/ (((drawingSurface.clientWidth)/16)*9),0.1,1000);
+camera.position.z = -135;
+camera.position.y =4;
+camera.lookAt(0,0,1)
+camera.rotation.y =Math.PI
+
+scene = new THREE.Scene();
+}
+function createSet(){
+
+
+
+
+var light2 = new THREE.PointLight( 0xffffff, 1, 300,1);
+light2.position.set( 0,50, 0);
+light2.castShadow = true;
+light2.shadow.mapSize.width = 1000;
+light2.shadow.mapSize.height = 1000;
+light2.shadow.camera.near = 0.5;
+light2.shadow.camera.far = 120;
+light2.shadow.camera.frustumCulled = false;
+
+scene.add( new THREE.AmbientLight( 0x404040 ))
+
+
+var cornerlight1 = new THREE.DirectionalLight(0xFFFAF4, 1);
+cornerlight1.position.set(-100,100,-100);
+cornerlight1.lookAt(0,0,0);
+cornerlight1.castShadow = true;
+cornerlight1.shadow.mapSize.width = 1000;
+cornerlight1.shadow.mapSize.height = 1000;
+cornerlight1.shadow.camera.near = 0.5;
+cornerlight1.shadow.camera.far = 120;
+cornerlight1.shadow.camera.frustumCulled = false;
+scene.add(cornerlight1)
+
+var cornerlight2 = new THREE.DirectionalLight(0xFFFAF4, 1);
+cornerlight2.position.set(-100,100,100);
+cornerlight2.lookAt(0,0,0);
+cornerlight2.castShadow = true;
+cornerlight2.shadow.mapSize.width = 1000;
+cornerlight2.shadow.mapSize.height = 1000;
+cornerlight2.shadow.camera.near = 0.5;
+cornerlight2.shadow.camera.far = 120;
+cornerlight2.shadow.camera.frustumCulled = false;
+scene.add(cornerlight2)
+
+var cornerlight3 = new THREE.DirectionalLight(0xFFFAF4, 1);
+cornerlight3.position.set(100,100,100);
+cornerlight3.lookAt(0,0,0);
+cornerlight3.castShadow = true;
+cornerlight3.shadow.mapSize.width = 1000;
+cornerlight3.shadow.mapSize.height = 1000;
+cornerlight3.shadow.camera.near = 0.5;
+cornerlight3.shadow.camera.far = 120;
+cornerlight3.shadow.camera.frustumCulled = false;
+scene.add(cornerlight3)
+
+var cornerlight4 = new THREE.DirectionalLight(0xffffff, 1);
+cornerlight4.position.set(100,100,-100);
+cornerlight4.lookAt(0,0,0);
+cornerlight4.castShadow = true;
+scene.add(cornerlight4)
+
+cornerlight4.shadow.mapSize.width = 1000;
+cornerlight4.shadow.mapSize.height = 1000;
+cornerlight4.shadow.camera.near = 0.5;
+cornerlight4.shadow.camera.far = 120;
+cornerlight4.shadow.camera.frustumCulled = false;
+
+
+
+
+  var planegeo = new THREE.PlaneBufferGeometry( 300, 300 );
+  planegeo.rotateX( - Math.PI / 2 );
+  const pmat =new THREE.MeshStandardMaterial( { color: 0x00022e} )
+  pmat.side =  THREE.DoubleSide;
+  pmat.opacity = 0.2;
+
+  var plane = new THREE.Mesh( planegeo, pmat );
+  plane.position.y = -2;
+  plane.receiveShadow = true;
+  scene.add( plane );
+
+
+  var planegeo2 =new THREE.PlaneBufferGeometry( 300, 300 );
+  var plane2 = new THREE.Mesh( planegeo2, pmat );
+  plane2.position.z= -150 ;
+  plane2.position.y = -2+150;
+  plane2.receiveShadow = true;
+  scene.add( plane2 );
+
+
+  var planegeo3 =new THREE.PlaneBufferGeometry( 300,300);
+  planegeo3.rotateY(Math.PI);
+  var plane3 = new THREE.Mesh( planegeo3, pmat );
+  plane3.position.z= 150;
+  plane3.receiveShadow = true;
+  plane3.position.y = -2+150;
+  scene.add( plane3 );
+
+  var planegeo4 =new THREE.PlaneBufferGeometry( 300, 300 );
+  planegeo4.rotateY(-Math.PI/2);
+  var plane4 = new THREE.Mesh( planegeo4, pmat );
+  plane4.position.x= 150;
+  plane4.receiveShadow = true;
+  plane4.position.y = -2+150;
+  scene.add( plane4 );
+
+  var planegeo5 =new THREE.PlaneBufferGeometry( 300, 300);
+  planegeo5.rotateY(Math.PI/2);
+
+
+  var plane5 = new THREE.Mesh( planegeo5, pmat );
+  plane5.position.x= -150;
+  plane5.position.y = -2+150 ;
+  plane5.receiveShadow = true;
+  scene.add( plane5 );
+
+}
+
+
+
+
+function loadGeom(){
+
+
+
+
+
+
+dracoloader.load(
+  'Models/scale.drc',
+  function(geometry){
+    geometry.computeVertexNormals();
+    geo = geometry.clone();
+    mesh =  new THREE.InstancedMesh(geometry, siliconMaterial,count);
+    mesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage );
+    mesh.castShadow=true;
+  //  mesh.rotation.y = Math.PI;
+
+    scene.add(mesh);
+    //propagateGeo();
+
+  },
+  function ( error ) {
+
+		console.log( error);
+
+	}
+);
+
   }
 
+  var thrbool= false;
 
-  geotest.scale(scale,scale,scale);
-  geotest.computeBoundingBox();
-  min = geotest.boundingBox.min;
-  if(wireframe){
+  var rotcounter =0;
 
-  geotest = ConvWire(geotest);
+    function animate() {
 
+
+    	renderer.render( scene, camera );
+    //  controls.update();
+
+
+        if(thrbool){
+
+          camera.position.z += (45/60);
+          camera.position.y +=(6/60);
+          camera.rotation.x -= (0.2461162072844344/60);
+
+          for(var i =0; i< models.length; i++){
+            models[i].material.opacity-=1/60
+          }
+
+          rotcounter++;
+          if(camera.position.z +(45/60) >15){
+            thrbool = false;
+            camera.position.z =15;
+            camera.position.y =10;
+
+            for(var i =0; i< models.length; i++){
+              scene.remove(models[i]);
+            }
+controls = new OrbitControls( camera, renderer.domElement );
+controls.target.set(0,5,0);
+controls.maxPolarAngle = Math.PI/2;
+
+controls.maxDistance = 60;
+controls.update();
+
+///update();
+          }
+
+
+        }
+
+      if(simB){
+simulate(simV);
+simV+=simA;
+if(simV>3){
+  simA= simA*-1;
+  simV =1;
+  simB= false;
+}
+if(simV+simA<0){
+  simB= false;
+  simA*=-1;
+  simV=0
+  update();
+}
+
+      }
+
+
+
+
+
+  //  else{renderer.shadowMap.enabled = true;}
+      	requestAnimationFrame( animate );
+    }
+
+
+
+
+
+
+function createMaterials(){
+
+   CFMaterial = new THREE.MeshPhongMaterial();
+  CFMaterial.normalMap = new THREE.TextureLoader().load( "Material/CF/normal.jpg" );
+  CFMaterial.map = new THREE.TextureLoader().load("Material/CF/color.jpg")
+  CFMaterial.roughnessMap = new THREE.TextureLoader().load("Material/CF/roughness.jpg")
+  CFMaterial.aoMap = new THREE.TextureLoader().load("Material/CF/ao.jpg")
+  CFMaterial.metalnessMap = new THREE.TextureLoader().load("Material/CF/metal.jpg")
+  CFMaterial.bumpMap = new THREE.TextureLoader().load("Material/CF/height.png");
+  CFMaterial.map.wrapS = THREE.RepeatWrapping;
+  CFMaterial.map.wrapT = THREE.RepeatWrapping;
+  CFMaterial.map.repeat.set( num, num );
+  CFMaterial.normalMap.wrapS = THREE.RepeatWrapping;
+  CFMaterial.normalMap.wrapT = THREE.RepeatWrapping;
+  CFMaterial.normalMap.repeat.set( num, num );
+  CFMaterial.roughnessMap.wrapS = THREE.RepeatWrapping;
+  CFMaterial.roughnessMap.wrapT = THREE.RepeatWrapping;
+  CFMaterial.roughnessMap.repeat.set( num, num );
+  CFMaterial.metalnessMap.wrapS = THREE.RepeatWrapping;
+  CFMaterial.metalnessMap.wrapT = THREE.RepeatWrapping;
+  CFMaterial.metalnessMap.repeat.set( num, num );
+  CFMaterial.aoMap.wrapS = THREE.RepeatWrapping;
+  CFMaterial.aoMap.wrapT = THREE.RepeatWrapping;
+  CFMaterial.aoMap.repeat.set( num, num );
+  CFMaterial.side = THREE.FrontSide;
+
+  ResinMaterial =  new THREE.MeshPhongMaterial({color:0x3b1b1b});
+  ResinMaterial.map = new THREE.TextureLoader().load('Material/plastic/Resin_001_COLOR.jpg')
+  ResinMaterial.normalMap = new THREE.TextureLoader().load('Material/plastic/PAOs4.jpg')
+  ResinMaterial.clearcoat =1.0;
+  ResinMaterial.emissiveIntensity =0.1
+  ResinMaterial.clearcoatRoughness =0.43;
+  ResinMaterial.reflectivity =0.2;
+  ResinMaterial.roughness = 0.8;
+  ResinMaterial.depthtest = true;
+  ResinMaterial.transparent= true;
+  ResinMaterial.opacity = 0.95;
+  ResinMaterial.map.wrapS = THREE.RepeatWrapping;
+  ResinMaterial.map.wrapT = THREE.RepeatWrapping;
+  ResinMaterial.map.repeat.set( 2, 2 );
+  ResinMaterial.normalMap.wrapS = THREE.RepeatWrapping;
+  ResinMaterial.normalMap.wrapT = THREE.RepeatWrapping;
+  ResinMaterial.normalMap.repeat.set( 2, 2 );
+
+
+  plaMaterial =  new THREE.MeshPhongMaterial({color:0x3b1b1b});
+  plaMaterial.map = new THREE.TextureLoader().load('Material/plastic/Plastic_001_COLOR.jpg')
+  plaMaterial.normalMap = new THREE.TextureLoader().load('Material/plastic/PAOs4.jpg')
+  plaMaterial.depthtest = true;
+  plaMaterial.map.wrapS = THREE.RepeatWrapping;
+  plaMaterial.map.wrapT = THREE.RepeatWrapping;
+  plaMaterial.map.repeat.set( 2, 2 );
+
+  plaMaterial.normalMap.wrapS = THREE.RepeatWrapping;
+  plaMaterial.normalMap.wrapT = THREE.RepeatWrapping;
+  plaMaterial.normalMap.repeat.set( 2, 2 );
+
+  siliconMaterial = new THREE.MeshPhongMaterial({color:0x4d4a00})
+  siliconMaterial.roughnessMap = new THREE.TextureLoader().load('Material/plastic/Plastic_001_ROUGH.jpg')
+  siliconMaterial.shininess = 0.5
+
+}
+
+
+function update(){
+
+
+   //scene = new THREE.Scene();
+  mesh =  new THREE.InstancedMesh(geo, siliconMaterial,count);
+  mesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage );
+  mesh.castShadow = true;
+  scene.children.length = 0;
+  scene.add(mesh);
+
+  //scene.add(light);
+  //scene.add( rectLight )
+  createSet();
+
+propagateGeo();
+
+}
+
+
+function propagateGeo(){
+var counter =0;
+
+
+  for(var i =0; i < countx;i++){
+  for (var u =0; u<county; u++){
+
+
+    if(u%2 ==0){
+
+  template.position.set((-sheetw/2)+(i*1),5,  (-sheeth/2)+(u*0.5))
+template.rotation.x = -(Math.PI/2)+Math.PI/1.3;
+  }
+  else{
+    template.position.set((-sheetw/2)+0.5+((i*1)),5,(-sheeth/2)+(u*0.5));
+    template.rotation.x =-(Math.PI/2)+ Math.PI/1.3
+    if(i==countx-1){
+      counter++;
+      continue;
+    }
+  }
+  template.updateMatrix();
+  mesh.setMatrixAt(counter++,template.matrix);
+  }
+
+  }
+
+    mesh.instanceMatrix.needsUpdate = true;
+
+}
+
+
+
+function simulate(mul){
+  var counter =0;
+  var tempVector = new THREE.Vector3(0,0,1);
+  var compvector;
+  console.log(countx);
+  var scaling =0.4
+ var angle = simangle/county;
+  var clothMesh = new THREE.Geometry();
+  var mult = Math.log(sheeth/scaling)*mul;
+var mulvector = new THREE.Vector3(0.5,0,0.5);
+var axis =  new THREE.Vector3(1,0,0)
+var base = new THREE.Vector3((-sheetw/2)+(i*1),5,(-sheeth/2));
+var anglevector = new THREE.Vector3(0,0,0.5);
+  var coun=0;
+var anglepos;
+var x = (-sheetw/2)+(i*1);
+var y = 5;
+var z = (-sheeth/2);
+
+  for(var i =0; i < countx;i++){
+x= (-sheetw/2)+(i*1);
+y = 5;
+z = (-sheeth/2)
+base = new THREE.Vector3((-sheetw/2)+(i*0.5),5,0);
+anglevector = new THREE.Vector3(0,0,0.5);
+  for (var u =0; u<county; u++){
+
+
+    anglevector.applyAxisAngle(axis,angle);
+    //console.log(angle*i );;
+   base.add(anglevector);
+     compvector = new THREE.Vector3(0,(2*Math.sin((((u+1)/(county))*(Math.PI*mul))))-(2*Math.sin(((u/(county))*(Math.PI*mul)))),1);
+console.log(anglevector)
+
+coun++;
+
+    if(u%2 ==0){
+      template.position.set((-sheetw/2)+(i*1),(base.y),  (-sheeth/2)+base.z)
+      //template.position.set(base)
+  //template.position.set((-sheetw/2)+(i*1),(-sheeth/2)+(u*0.5),  (Math.pow(Math.E,(u/county)*mult)*scaling)-sb);
 
   }
   else{
-    console.log(typeof(geotest));
+  //  template.position.set((-sheetw/2)+(0.5)+(i*1), 5+ Math.sin(((u/(county))*(Math.PI*mul))),(-sheeth/2)+(u*0.5))
+    //template.position.set((-sheetw/2)+0.5+((i*1)),(-sheeth/2)+(u*0.5), (Math.pow(Math.E,(u/county)*mult)*scaling)-sb);
+    template.position.set((-sheetw/2)+(i*1),base.y,  (-sheeth/2)+base.z)
+    template.position.x+=0.5
 
-    geotest = new THREE.Mesh(geotest,meshColor)
-    console.log(geotest);
-normalizeUVs(geotest.geometry);
-console.log(geotest);
-  }
-  geotest.position.x= (window.innerWidth/list.length/2)-(window.innerWidth/2)+((window.innerWidth/list.length)*i+1);
-
-  scene.add(geotest);
-
-
-
-
-
-
-
-
-}
-
-}
-
-function ConvWire(geo ){
-  var geo2 = new THREE.EdgesGeometry(geo);
-  var Wf = new THREE.LineSegments( geo2, lineMat );
-
-
-  return Wf
-}
-
-function inserts(start1,end1,start2,end2,b1,b2,b3,b4){
-var dir = new THREE.Vector2();
-var mid = new THREE.Vector2();
-dir.subVectors(end1,start1);
-mid.addVectors(end1,start1);
-mid.multiplyScalar(0.5);
-var length= dir.length();
-dir.normalize();
-var points=[];
-var normalv = new THREE.Vector2(dir.y,-1*dir.x);
-normalv.normalize();
-points.push(start1);
-if(b1){
-  var max = Math.floor((((length/2)-(2*toothw))-(toothw+MaterialThickness))/toothw);
-    for(var i=max;i>0;i--){
-      if(i%5==0){
-      //  points.push( new THREE.Vector2(mid.x-(dir.x*(i*toothw))))
-
-
-    points.push(new THREE.Vector2(mid.x-(dir.x*((i*toothw)+MaterialThickness+toothw)),mid.y-(dir.y*((i*toothw)+MaterialThickness+toothw))));
-    points.push(new THREE.Vector2(mid.x-(dir.x*((i*toothw)+MaterialThickness+toothw))+(normalv.x*MaterialThickness*2),mid.y-(dir.y*i*toothw)+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(mid.x-(dir.x*(((i-1)*toothw)+MaterialThickness+toothw))+(normalv.x*MaterialThickness*2),mid.y-(dir.y*((i*toothw)-toothw))+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(mid.x-(dir.x*(((i-1)*toothw)+MaterialThickness+toothw)),mid.y-(dir.y*(((i-1)*toothw)+MaterialThickness+toothw))));
-
-
-
-
-}
-  }
-  for (var i = toothw+MaterialThickness; i <(length/2)-(2*toothw); i+=toothw) {
-  if(((i-MaterialThickness)/toothw)%5==0){
-    points.push(new THREE.Vector2(mid.x+(dir.x*i),mid.y+(dir.y*i)));
-    points.push(new THREE.Vector2(mid.x+(dir.x*i)+(normalv.x*MaterialThickness*2),mid.y+(dir.y*i)+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(mid.x+(dir.x*(i+toothw))+(normalv.x*MaterialThickness*2),mid.y+(dir.y*(i+toothw))+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(mid.x+(dir.x*(i+toothw)),mid.y+(dir.y*(i+toothw))));
-  }
-}
-}
-
-
-dir.subVectors(start2,end1);
- length= dir.length();
-dir.normalize();
- normalv = new THREE.Vector2(dir.y,-1*dir.x);
-normalv.normalize();
-points.push(end1);
-if(b2){
-for (var i = toothw; i < length-(2*toothw); i+=toothw) {
-  if((i/toothw)%5==0){
-    points.push(new THREE.Vector2(end1.x+(dir.x*i),end1.y+(dir.y*i)));
-    points.push(new THREE.Vector2(end1.x+(dir.x*i)+(normalv.x*MaterialThickness*2),end1.y+(dir.y*i)+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(end1.x+(dir.x*(i+toothw))+(normalv.x*MaterialThickness*2),end1.y+(dir.y*(i+toothw))+(normalv.y*2*MaterialThickness)));
-    points.push(new THREE.Vector2(end1.x+(dir.x*(i+toothw)),end1.y+(dir.y*(i+toothw))));
-  }
-}
-}
-
-
-
-dir.subVectors(end2,start2);
- length= dir.length();
-dir.normalize();
- normalv = new THREE.Vector2(dir.y,-1*dir.x);
-normalv.normalize();
-points.push(start2);
-if(b3){
-for (var i = toothw; i < length-(2*toothw); i+=toothw) {
-  if((i/toothw)%5==0){
-    points.push(new THREE.Vector2(start2.x+(dir.x*i),start2.y+(dir.y*i)));
-    points.push(new THREE.Vector2(start2.x+(dir.x*i)+(normalv.x*MaterialThickness*2),start2.y+(dir.y*i)+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(start2.x+(dir.x*(i+toothw))+(normalv.x*MaterialThickness*2),start2.y+(dir.y*(i+toothw))+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(start2.x+(dir.x*(i+toothw)),start2.y+(dir.y*(i+toothw))));
-  }
-}
-}
-
-
-
-dir.subVectors(start1,end2);
- length= dir.length();
-dir.normalize();
- normalv = new THREE.Vector2(dir.y,-1*dir.x);
-normalv.normalize();
-points.push(end2);
-if(b4){
-for (var i = toothw; i < length-(2*toothw); i+=toothw) {
-  if((i/toothw)%5==0){
-    points.push(new THREE.Vector2(end2.x+(dir.x*i),end2.y+(dir.y*i)));
-    points.push(new THREE.Vector2(end2.x+(dir.x*i)+(normalv.x*MaterialThickness*2),end2.y+(dir.y*i)+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(end2.x+(dir.x*(i+toothw))+(normalv.x*MaterialThickness*2),end2.y+(dir.y*(i+toothw))+(normalv.y*MaterialThickness*2)));
-    points.push(new THREE.Vector2(end2.x+(dir.x*(i+toothw)),end2.y+(dir.y*(i+toothw))));
-  }
-}
-}
-
-
-return points;
-
-
-}
-
-
-function createHoles(start1,end1,start2,end2,b1,b2,b3,b4){
-var holes= [];
-var path= new THREE.Path();
-
-
-var mid = new THREE.Vector2();
-
-var dir = new THREE.Vector2();
-dir.subVectors(end1,start1);
-mid.addVectors(end1,start1);
-mid.multiplyScalar(0.5);
-var length= dir.length();
-dir.normalize();
-var points=[];
-var normalv = new THREE.Vector2(dir.y,-1*dir.x);
-normalv.normalize();
-normalv.multiplyScalar(-1);
-var normal1 =  normalv.clone();
-normal1.multiplyScalar(MaterialThickness);
-var normal2 = normalv.clone();
-normal2.multiplyScalar(MaterialThickness*2);
-var normal3 = normalv.clone();
-normal3.multiplyScalar(MaterialThickness*3);
-var move = dir.clone();
- move.multiplyScalar(toothw/2);
- var vmove;
- var vmove1;
-
-
-//points.push(start1);
-if(b1){
-
-
-    points.push(new THREE.Vector2().subVectors(mid,move).add(normal2));
-    points.push(new THREE.Vector2().addVectors(mid,move).add(normal2));
-    points.push(new THREE.Vector2().addVectors(mid,move).add(normal1));
-    points.push(new THREE.Vector2().subVectors(mid,move).add(normal1));
-    var shape =new THREE.Shape(points)
-    shape.autoClose=true
-    holes.push(shape);
-        points.length=0;
-for (var i = toothw+MaterialThickness; i < (length/2)-(2*toothw); i+=toothw) {
-
-  if(((i-MaterialThickness)/toothw)%5==0){
-    vmove = dir.clone();
-    vmove.multiplyScalar(-i);
-    vmove1 = dir.clone();
-    vmove1.multiplyScalar(-i-toothw);
-
-  points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal2));
-    points.push(new THREE.Vector2().subVectors(mid,vmove1).add(normal2));
-  points.push(new THREE.Vector2().subVectors(mid,vmove1).add(normal1));
-  points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal1));
-
-  shape =new THREE.Shape(points)
-  shape.autoClose=true
-  holes.push(shape);
-
-points.length=0;
-
-    points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal2));
-      points.push(new THREE.Vector2().addVectors(mid,vmove1).add(normal2));
-    points.push(new THREE.Vector2().addVectors(mid,vmove1).add(normal1));
-      points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal1));
-
-        shape =new THREE.Shape(points)
-        shape.autoClose=true
-        holes.push(shape);
-      points.length =0;
+    if(i==countx-1){
+      counter++;
+      continue;
+    }
 
   }
+  if(compvector.z>0){
+  template.rotation.x = (angle*(u+1))
 }
-
+else{
+//  template.rotation.x =anglevector
 
 }
-
-
-dir.subVectors(start2,end1);
-mid.addVectors(start2,end1);
-mid.multiplyScalar(0.5);
- length= dir.length();
-dir.normalize();
- normalv = new THREE.Vector2(dir.y,-1*dir.x);
-normalv.normalize();
-normalv.multiplyScalar(-1);
- normal1 =  normalv.clone();
-normal1.multiplyScalar(MaterialThickness);
- normal2 = normalv.clone();
-normal2.multiplyScalar(MaterialThickness*2);
- normal3 = normalv.clone();
-normal3.multiplyScalar(MaterialThickness*3);
- move = dir.clone();
- move.multiplyScalar(toothw/2);
-//points.push(end1);
-if(b2){
-
-
-
-  points.push(new THREE.Vector2().subVectors(mid,move).add(normal2));
-  points.push(new THREE.Vector2().addVectors(mid,move).add(normal2));
-  points.push(new THREE.Vector2().addVectors(mid,move).add(normal3));
-  points.push(new THREE.Vector2().subVectors(mid,move).add(normal3));
-  shape =new THREE.Shape(points)
-  shape.autoClose=true
-  holes.push(shape);
-      points.length=0;
-for (var i = toothw+MaterialThickness; i < (length/2)-(2*toothw); i+=toothw) {
-
-if(((i-MaterialThickness)/toothw)%5==0){
-  vmove = dir.clone();
-  vmove.multiplyScalar(-i);
-  vmove1 = dir.clone();
-  vmove1.multiplyScalar(-i-toothw);
-
-points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal2));
-  points.push(new THREE.Vector2().subVectors(mid,vmove1).add(normal2));
-points.push(new THREE.Vector2().subVectors(mid,vmove1).add(normal3));
-points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal3));
-points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal2));
-shape =new THREE.Shape(points)
-shape.autoClose=true
-holes.push(shape);
-
-points.length=0;
-
-  points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal2));
-    points.push(new THREE.Vector2().addVectors(mid,vmove1).add(normal2));
-  points.push(new THREE.Vector2().addVectors(mid,vmove1).add(normal3));
-    points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal3));
-      points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal2));
-      shape =new THREE.Shape(points)
-      shape.autoClose=true
-      holes.push(shape);
-    points.length =0;
+  template.updateMatrix();
+  mesh.setMatrixAt(counter++,template.matrix);
   }
-}
-}
 
-
-
-dir.subVectors(end2,start2);
-mid.addVectors(end2,start2);
-mid.multiplyScalar(0.5);
- length= dir.length();
-dir.normalize();
- normalv = new THREE.Vector2(dir.y,-1*dir.x);
-normalv.normalize();
-normalv.multiplyScalar(-1);
-normal1 =  normalv.clone();
-normal1.multiplyScalar(MaterialThickness);
-normal2 = normalv.clone();
-normal2.multiplyScalar(MaterialThickness*2);
-normal3 = normalv.clone();
-normal3.multiplyScalar(MaterialThickness*3);
-move = dir.clone();
-move.multiplyScalar(toothw/2);
-
-if(b3){
-  points.push(new THREE.Vector2().subVectors(mid,move).add(normal2));
-  points.push(new THREE.Vector2().addVectors(mid,move).add(normal2));
-  points.push(new THREE.Vector2().addVectors(mid,move).add(normal1));
-  points.push(new THREE.Vector2().subVectors(mid,move).add(normal1));
-  holes.push(new THREE.Shape(points));
-      points.length=0;
-for (var i = toothw+MaterialThickness; i < (length/2)-(2*toothw); i+=toothw) {
-
-if(((i-MaterialThickness)/toothw)%5==0){
-  vmove = dir.clone();
-  vmove.multiplyScalar(-i);
-  vmove1 = dir.clone();
-  vmove1.multiplyScalar(-i-toothw);
-
-points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal2));
-  points.push(new THREE.Vector2().subVectors(mid,vmove1).add(normal2));
-points.push(new THREE.Vector2().subVectors(mid,vmove1).add(normal1));
-points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal1));
-
-  holes.push(new THREE.Shape(points));
-
-points.length=0;
-
-  points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal2));
-    points.push(new THREE.Vector2().addVectors(mid,vmove1).add(normal2));
-  points.push(new THREE.Vector2().addVectors(mid,vmove1).add(normal1));
-    points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal1));
-    holes.push(new THREE.Shape(points));
-    points.length =0;
   }
-}
-}
 
 
-
-dir.subVectors(start1,end2);
-mid.addVectors(start1,end2);
-mid.multiplyScalar(0.5);
- length= dir.length();
-dir.normalize();
- normalv = new THREE.Vector2(dir.y,-1*dir.x);
-normalv.normalize();
-normalv.multiplyScalar(-1);
-normal1 =  normalv.clone();
-normal1.multiplyScalar(MaterialThickness);
-normal2 = normalv.clone();
-normal2.multiplyScalar(MaterialThickness*2);
-normal3 = normalv.clone();
-normal3.multiplyScalar(MaterialThickness*3);
-move = dir.clone();
-move.multiplyScalar(toothw/2);
-if(b4){
-
-
-    points.push(new THREE.Vector2().subVectors(mid,move).add(normal2));
-    points.push(new THREE.Vector2().addVectors(mid,move).add(normal2));
-    points.push(new THREE.Vector2().addVectors(mid,move).add(normal3));
-    points.push(new THREE.Vector2().subVectors(mid,move).add(normal3));
-    holes.push(new THREE.Shape(points));
-        points.length=0;
-  for (var i = toothw+MaterialThickness; i < (length/2)-(2*toothw); i+=toothw) {
-
-  if(((i-MaterialThickness)/toothw)%5==0){
-    vmove = dir.clone();
-    vmove.multiplyScalar(-i);
-    vmove1 = dir.clone();
-    vmove1.multiplyScalar(-i-toothw);
-
-  points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal2));
-    points.push(new THREE.Vector2().subVectors(mid,vmove1).add(normal2));
-  points.push(new THREE.Vector2().subVectors(mid,vmove1).add(normal3));
-  points.push(new THREE.Vector2().subVectors(mid,vmove).add(normal3));
-
-    holes.push(new THREE.Shape(points));
-
-  points.length=0;
-
-    points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal2));
-      points.push(new THREE.Vector2().addVectors(mid,vmove1).add(normal2));
-    points.push(new THREE.Vector2().addVectors(mid,vmove1).add(normal3));
-      points.push(new THREE.Vector2().addVectors(mid,vmove).add(normal3));
-      holes.push(new THREE.Shape(points));
-      points.length =0;
-  }
-}
-}
-
-
-return holes;
+    mesh.instanceMatrix.needsUpdate = true;
 
 
 }
 
-animate();
-      function animate(){
-        requestAnimationFrame( animate );
-        if(partMode){
-        render.render(scene,partcamera)
-        }
-        else{
-          render.render(scene,camera)        }
-
-
-        	// required if controls.enableDamping or controls.autoRotate are set to true
-        	controls.update();
 
 
 
-      }
+  </script>
 
 
 
-      function normalizeUVs(geo){
-        geo.computeBoundingBox();
-        var box = geo.boundingBox;
+  <svg id= 'bodySVG' display = 'none' position = 'absolute' height="50%" viewBox="0 0 24 24" overflow="visible" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path position = 'absolute' id = 'Left Wrist' d="M9.619549,10.58026 L9.32803,11.3909 L9.313991,11.43537 L9.277326,12.16129 L9.258102,12.7292 L9.124746,12.74858 L9.109952,12.47488 L9.071551,12.27651 L8.989232,12.29022 L8.958219,12.56343 L8.947027,12.78773 L8.830112,12.88832 L8.772201,12.77859 L8.769753,12.51521 L8.769753,12.33961 L8.706656,12.30121 L8.62436,12.53715 L8.599665,12.7484 L8.583201,12.89379 L8.432291,12.924 L8.404859,12.7621 L8.459745,12.27378 L8.409664,12.21402 L8.33353,12.33687 L8.222222,12.53989 C8.212456,12.75387 8.141483,12.7676 8.075628,12.72097 L8.048197,12.56732 L8.094851,12.32314 L8.222222,12.05181 L8.240244,11.97198 L8.319826,11.75799 L8.321984,11.63389 L8.315643,11.62642 L8.10582,11.70311 L7.760126,11.77444 L7.801285,11.63178 L8.042701,11.48087 L8.278645,11.33548 L8.648322,11.16305 L8.783324,10.98091 L8.98476,10.30075 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill = "#092AB3" />
+    <path id = 'Left Knee' d="M11.87158,18.49461 L11.80713,17.35098 L11.82608,17.13984 L11.85783,17.02578 L12.10232,15.59401 L10.74048,15.48488 L10.75352,15.60694 L10.83724,16.47611 L10.83661,16.75132 L10.67634,17.88589 L10.67542,18.39941 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill ="#092AB3" />
+    <path id = 'Right Knee' d="M13.12701,18.49461 L13.19146,17.35098 L13.17251,17.13984 L13.14076,17.02578 L12.89627,15.59401 L14.25811,15.48488 L14.24508,15.60694 L14.16136,16.47611 L14.16198,16.75132 L14.32226,17.88589 L14.32317,18.39941 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill ="#092AB3" />
+    <path id = 'Right Shoulder' d="M13.42189,5.127994 C13.42189,5.127994 12.65623,7.097256 14.25811,7.631215 L14.25484,7.630103 L14.3352,7.311062 L14.49995,7.915348 L15.32783,7.594528 L15.12737,6.818686 L15.07431,6.3949 C14.96191,5.648492 14.81352,5.679951 14.64715,5.455132 C14.48079,5.230313 14.08509,5.167351 13.9176,5.179721 L13.85471,5.171889 L13.42741,5.115268 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill ="#092AB3" />
+    <path id =  'Left Shin' d="M11.86593,18.49921 L10.67543,18.39941 L10.83661,19.80134 L10.93428,20.72812 L10.89495,21.34274 L10.86064,21.46286 L10.78409,21.70947 L10.51726,22.07144 L10.43761,22.23061 L10.36417,22.31624 L10.29965,22.54589 L10.37492,22.60164 L10.4545,22.63995 L10.57469,22.6903 L10.65665,22.76165 L10.78449,22.6839 L10.91166,22.78886 L11.10887,22.73444 L11.20527,22.57257 L11.27206,22.50666 L11.34345,22.20066 L11.37095,22.07629 L11.54415,21.95927 L11.5961,21.66345 L11.57277,21.43995 L11.59506,21.24525 L11.54705,20.79028 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill ="#092AB3" />
+    <path id =  'Right Shin' d="M13.13266,18.49921 L14.32317,18.39941 L14.16198,19.80134 L14.06431,20.72812 L14.10366,21.34274 L14.13795,21.46286 L14.21451,21.70947 L14.48135,22.07144 L14.56098,22.23061 L14.63442,22.31624 L14.69894,22.54589 L14.62367,22.60164 L14.54409,22.63995 L14.42391,22.6903 L14.34194,22.76165 L14.2141,22.6839 L14.08693,22.78886 L13.88972,22.73444 L13.79332,22.57257 L13.72653,22.50666 L13.65514,22.20066 L13.62764,22.07629 L13.45444,21.95927 L13.40249,21.66345 L13.42583,21.43995 L13.40353,21.24525 L13.45154,20.79028 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill ="#092AB3"/>
+    <path id = 'Left Shoulder' d="M11.5767,5.127994 C11.5767,5.127994 12.34236,7.097256 10.74048,7.631215 L10.74375,7.630103 L10.66339,7.311062 L10.49864,7.915348 L9.670759,7.594528 L9.871239,6.818686 L9.924279,6.3949 C10.03668,5.648492 10.18507,5.679951 10.35145,5.455132 C10.51782,5.230313 10.9135,5.167351 11.08099,5.179721 L11.14389,5.171889 L11.57119,5.115268 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill ="#092AB3"/>
+    <path id ="Left Elbow" d="M9.663351,7.597553 L10.49864,7.915348 L10.30973,8.468841 L10.24176,8.831332 L9.619544,10.58025 L8.984778,10.30074 L9.041044,9.856333 L9.328047,8.725898 L9.532397,8.201283 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill = "#092AB3"/>
+    <path id =  'Body' d="M14.1268,10.80531 L13.90828,9.006579 L14.1268,7.966984 L14.25486,7.630101 L14.24927,7.623849 C12.6474,7.08989 13.4274,5.115265 13.4274,5.115265 L13.4137,5.109859 C13.31035,5.065073 13.12776,4.975502 13.10364,4.768793 L13.15693,4.123993 L13.256,3.819903 L13.37581,3.804129 L13.38048,3.778121 L13.47426,3.487959 L13.49639,3.418255 L13.47572,3.243272 L13.32911,3.290839 L13.32757,3.201201 L13.32757,2.667197 L13.21733,2.374343 C13.14498,2.253757 12.92234,1.943705 12.49858,1.943705 L12.5,1.943705 C12.07624,1.943705 11.8536,2.253757 11.78125,2.374343 L11.67101,2.667197 L11.67101,3.201201 L11.66947,3.290839 L11.52286,3.243272 L11.50219,3.418255 L11.52435,3.487959 L11.61813,3.778121 L11.62278,3.804129 L11.74258,3.819903 L11.84165,4.123993 L11.89496,4.768793 C11.87082,4.975502 11.68823,5.065073 11.58489,5.109859 L11.5712,5.115265 C11.5712,5.115265 12.35121,7.08989 10.74933,7.623849 L10.74375,7.630101 L10.87178,7.966984 L11.09031,9.006579 L10.87178,10.80531 C10.65495,11.45905 10.30982,12.69922 10.49639,13.74355 L10.74159,15.4847 L12.10232,15.59401 L12.10354,15.37179 L12.10443,15.36601 L12.37068,13.21204 L12.36487,12.74494 L12.42899,12.61654 L12.48519,12.5761 L12.50001,12.57583 L12.49858,12.57583 L12.5134,12.5761 L12.5696,12.61654 L12.63372,12.74494 L12.62791,13.21204 L12.89416,15.36601 L12.89505,15.37179 L12.89627,15.59401 L14.25702,15.4847 L14.50222,13.74355 C14.68877,12.69922 14.34363,11.45905 14.1268,10.80531 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill ="#092AB3" />
+    <path id =  'Right Elbow' d="M15.33524,7.597553 L14.49995,7.915348 L14.68886,8.468841 L14.75683,8.831332 L15.37905,10.58025 L16.01381,10.30074 L15.95755,9.856333 L15.67054,8.725898 L15.46619,8.201283 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill = "#092AB3"/>
+    <path id = 'Right Wrist' d="M15.37904,10.58026 L15.67056,11.3909 L15.6846,11.43537 L15.72129,12.16129 L15.74049,12.7292 L15.87385,12.74858 L15.88864,12.47488 L15.92704,12.27651 L16.00936,12.29022 L16.04037,12.56343 L16.05156,12.78773 L16.16848,12.88832 L16.22639,12.77859 L16.22884,12.51521 L16.22884,12.33961 L16.29193,12.30121 L16.37425,12.53715 L16.39893,12.7484 L16.41541,12.89379 L16.5663,12.924 L16.59373,12.7621 L16.53885,12.27378 L16.58893,12.21402 L16.66506,12.33687 L16.77637,12.53989 C16.78616,12.75387 16.85711,12.7676 16.92296,12.72097 L16.9504,12.56732 L16.90374,12.32314 L16.77637,12.05181 L16.75835,11.97198 L16.67879,11.75799 L16.67661,11.63389 L16.68295,11.62642 L16.89277,11.70311 L17.23847,11.77444 L17.19731,11.63178 L16.95589,11.48087 L16.71995,11.33548 L16.35027,11.16305 L16.21527,10.98091 L16.01383,10.30075 z" stroke="#7F7F7F" stroke-width="0.04" fill-opacity="1" fill ="#092AB3" />
+  </svg>
 
 
-        var min = box.min;
-        var max = box.max;
-        var xl = max.x-min.x;
-        var yl = max.y-min.y;
-        var zl = max.z-min.z;
-        var lm = Math.max(xl,yl,zl);
-        if(typeof(geo.attributes)=='undefined'){
-          for (var i = 0; i < geo.faceVertexUvs[0].length; i++) {
-console.log(geo.faceVertexUvs[0][i])
-            geo.faceVertexUvs[0][i][0]=(geo.faceVertexUvs[0][i][0].divideScalar(lm*10)).addScalar(0.5);
-            geo.faceVertexUvs[0][i][1]=(geo.faceVertexUvs[0][i][1].divideScalar(lm*10)).addScalar(0.5);
-            geo.faceVertexUvs[0][i][2]=(geo.faceVertexUvs[0][i][2].divideScalar(lm*10)).addScalar(0.5);
-console.log(geo.faceVertexUvs[0][i])
-          }
-        }
-        else{
-        for (var i = 0; i < geo.attributes.uv.array.length; i++) {
+  <svg height="50%" id = 'Protractor' display = 'none' viewBox="0 0 24 24" overflow="visible" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0.5454373,17.25799 L0.5262574,18.00076 L23.36715,18.02504 L23.36715,17.24294" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M12.47154,17.28704 C12.49587,17.04699 12.22375,16.77486 11.98369,16.79919 C11.74364,16.77486 11.47151,17.04699 11.49585,17.28704 C11.47151,17.52709 11.74364,17.79922 11.98369,17.77489 C12.22375,17.79922 12.49587,17.52709 12.47154,17.28704 z" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.5438156,17.26551 C1.318466,2.364223 22.44481,1.754906 23.38141,17.26551" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M4.064427,9.086668 L4.524053,9.562106" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M4.809387,8.427596 L5.22553,8.941485" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M16.62058,6.872632 L16.35141,7.476721" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M3.926073,9.229336 L4.588738,9.892001" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.75552,11.4157 L21.1888,11.75602" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M16.43802,6.793212 L16.17964,7.401974" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M3.646129,9.512155 L4.129831,9.963155" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.09163,14.72256 L22.44729,14.87134" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M16.98102,7.040814 L16.69137,7.635201" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M7.713042,6.717028 L7.961002,7.330101" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.22988,12.28967 L21.63549,12.57932" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.94213,14.1447 L22.30642,14.3269" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.532822,10.91223 L3.080851,11.28202" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M14.93301,6.280042 L14.69044,7.185278" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.31817,10.75088 L20.55021,11.28849" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M17.15926,7.129577 L16.85883,7.718573" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M4.504647,8.683463 L4.938398,9.182259" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M4.208891,8.949751 L4.659892,9.433094" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M3.783046,9.36805 L4.258842,9.827315" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M4.355512,8.81535 L4.798247,9.306599" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M3.511727,9.658774 L4.003335,10.10151" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M4.964992,8.303616 L5.372149,8.824693" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M17.33571,7.221573 L17.02522,7.805179" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M5.123111,8.18251 L5.520926,8.710774" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M5.283028,8.06428 L5.671499,8.599372" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M17.51072,7.316445 L17.18981,7.89466" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.95424,11.76033 L21.37603,12.08088" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M5.60897,7.836084 L5.978755,8.384113" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M5.774637,7.72612 L6.135078,8.280617" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M16.79954,6.959598 L16.40352,7.808773" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.04948,11.93498 L21.46551,12.24547" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M5.94246,7.619389 L6.293198,8.179996" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M6.112438,7.515173 L6.452755,8.082249" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M17.85499,7.515173 L17.51467,8.082249" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.13475,14.91698 L22.4879,15.05425" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.35612,16.49171 L22.69633,16.53806" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M5.447616,7.952518 L5.985223,8.720477" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M6.456708,7.316445 L6.777619,7.89466" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M18.02497,7.619389 L17.67423,8.179996" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M18.35846,7.836084 L17.98867,8.384113" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M7.34685,6.872632 L7.616014,7.476721" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M6.631718,7.221573 L6.942207,7.805179" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M6.986409,7.040814 L7.276056,7.635201" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.14111,12.11143 L21.55212,12.41186" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M7.529407,6.793212 L7.787789,7.401974" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.17428,15.11175 L22.52527,15.23789" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M6.808166,7.129577 L7.108593,7.718573" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M18.6844,8.06428 L18.29593,8.599372" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M7.898473,6.644077 L8.135293,7.261463" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M7.167888,6.959598 L7.563906,7.808773" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M18.84431,8.18251 L18.4465,8.710774" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M8.272211,6.508237 L8.48747,7.13317" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.39806,12.65011 L21.79397,12.91928" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M8.460876,6.44499 L8.665354,7.073875" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M19.00244,8.303616 L18.59528,8.824693" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M8.65062,6.384976 L8.843958,7.017455" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M8.841442,6.328556 L9.023639,6.96427" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M19.15804,8.427596 L18.7419,8.941485" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.36798,16.69043 L22.70783,16.72493" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.47748,12.83267 L21.86872,13.09105" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.33564,16.29406 L22.40201,16.37563" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M9.419298,6.179061 L9.568074,6.823399" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M18.51981,7.952518 L17.9822,8.720477" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M9.613354,6.136297 L9.75099,6.782791" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M9.808488,6.096407 L9.934625,6.745418" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M19.46278,8.683463 L19.02903,9.182259" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M11.86692,17.28698 L12.10051,17.28698" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M9.03442,6.280042 L9.27699,7.185278" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M11.98371,17.40377 L11.98371,17.17018" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.5883076,17.28698 L1.910764,17.28698" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M10.20019,6.02741 L10.30369,6.680372" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M19.61192,8.81535 L19.16918,9.306599" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.55366,13.01666 L21.94059,13.26427" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.7615203,15.30832 L2.063853,15.53796" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.275769,13.38968 L2.518447,13.84212" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M10.39713,5.997942 L10.48912,6.652702" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.115242,11.58927 L3.260532,12.2505" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M3.254423,9.962437 L4.267468,10.81233" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M10.59442,5.972067 L10.67491,6.628265" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M19.75854,8.949751 L19.30754,9.433094" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M4.658814,8.557686 L5.509068,9.57073" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M6.28601,7.418505 L6.947238,8.563795" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M10.79207,5.949428 L10.86106,6.607063" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M8.08642,6.579032 L8.538499,7.82171" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M10.00506,6.064784 L10.23469,7.367475" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M11.18844,5.914929 L11.23444,6.57436" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M19.903,9.086668 L19.44337,9.562106" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.62661,13.20174 L22.00923,13.43856" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.24328,15.50382 L22.59032,15.60731" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M11.98371,5.891571 L11.98371,7.214386" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M13.96237,6.064784 L13.73273,7.367475" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M11.38717,5.90271 L11.42167,6.562861" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M15.88101,6.579032 L15.42893,7.82171" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M17.68142,7.418505 L17.02019,8.563795" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M11.5859,5.894086 L11.6089,6.554955" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M20.18438,9.36805 L19.70858,9.827315" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M19.30861,8.557686 L18.45836,9.57073" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M20.713,9.962437 L19.69996,10.81233" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M11.78463,5.888695 L11.79613,6.549924" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.85219,11.58927 L20.7069,12.2505" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.69166,13.38968 L21.44898,13.84212" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M10.99043,5.935053 L11.07237,6.869038" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M20.3213,9.512155 L19.83759,9.963155" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.31145,12.47115 L21.46192,12.86717" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.20591,15.30832 L21.90357,15.53796" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.37912,17.28698 L22.05666,17.28698" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M12.1828,5.888695 L12.1713,6.549924" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.5884156,17.28698 L1.910764,17.28698" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.5853965,17.08825 L1.246661,17.09975" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M12.38153,5.894086 L12.35853,6.554955" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M20.4557,9.658774 L19.96409,10.10151" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.5906071,16.88916 L1.251332,16.91216" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.5993039,16.69043 L1.259598,16.72493" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M12.58026,5.90271 L12.54576,6.562861" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.6114504,16.49171 L1.271098,16.53806" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.6461288,16.09533 L1.303799,16.16469" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M12.77898,5.914929 L12.73299,6.57436" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M20.58759,9.80791 L20.08843,10.24166" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.76281,13.57547 L22.13752,13.79073" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.27275,15.70039 L22.61799,15.79239" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.37696,16.88916 L22.71609,16.91216" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.6686608,15.89768 L1.325002,15.97818" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.6946074,15.70039 L1.349438,15.79239" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M13.17536,5.949428 L13.10636,6.607063" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.7240388,15.50382 L1.377109,15.60731" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.6317908,16.29406 L1.565416,16.37563" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M13.37301,5.972067 L13.29251,6.628265" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M20.04136,9.229336 L19.37869,9.892001" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.7931446,15.11175 L1.442154,15.23789" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.832782,14.91698 L1.479528,15.05425" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M13.5703,5.997942 L13.4783,6.652702" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.8758697,14.72256 L1.520136,14.87134" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.9222998,14.52922 L1.563979,14.68914" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M13.76723,6.02741 L13.66374,6.680372" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M20.84309,10.11265 L20.3292,10.52879" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.8257,13.76414 L22.19682,13.96862" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.025293,14.1447 L1.661007,14.3269" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.081821,13.95388 L1.714192,14.14722" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M12.97699,5.935053 L12.89506,6.869038" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.141619,13.76414 L1.770612,13.96862" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.204615,13.57547 L1.829907,13.79073" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M14.15894,6.096407 L14.0328,6.745418" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M20.96707,10.26861 L20.446,10.67577" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M0.9767072,14.33768 L1.882015,14.58025" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.340814,13.20174 L1.9582,13.43856" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M14.35407,6.136297 L14.21644,6.782791" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.413765,13.01666 L2.026839,13.26427" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.48995,12.83267 L2.098711,13.09105" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M14.54813,6.179061 L14.39935,6.823399" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.08818,10.42637 L20.55992,10.82419" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.88571,13.95388 L22.25323,14.14722" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.29862,15.89768 L22.64243,15.97818" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.569369,12.65011 L2.173459,12.91928" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.737551,12.28967 L2.331937,12.57932" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M14.74147,6.225778 L14.58155,6.867241" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M9.225961,6.225778 L9.385877,6.867241" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M22.99065,14.33768 L22.08541,14.58025" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.826314,12.11143 L2.41531,12.41186" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.917951,11.93498 L2.501916,12.24547" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M15.12599,6.328556 L14.94379,6.96427" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.20641,10.58629 L20.67168,10.97512" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.013183,11.76033 L2.591398,12.08088" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M1.655975,12.47115 L2.50551,12.86717" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M15.31681,6.384976 L15.12347,7.017455" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.21191,11.4157 L2.778626,11.75602" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.315766,11.24608 L2.876732,11.59646" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M15.50655,6.44499 L15.30207,7.073875" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.4346,10.91223 L20.88658,11.28202" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M18.19279,7.72612 L17.83235,8.280617" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.422856,11.07826 L2.977354,11.43834" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M15.69522,6.508237 L15.47996,7.13317" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.761017,10.58629 L3.295749,10.97512" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.879247,10.42637 L3.407512,10.82419" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.54457,11.07826 L20.99007,11.43834" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M3.000353,10.26861 L3.52143,10.67577" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M3.124333,10.11265 L3.638222,10.52879" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M16.06895,6.644077 L15.83213,7.261463" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M2.649256,10.75088 L3.417214,11.28849" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M3.379841,9.80791 L3.878996,10.24166" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M16.25438,6.717028 L16.00643,7.330101" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M21.65166,11.24608 L21.09069,11.59646" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.04527,14.52922 L22.40345,14.68914" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.32126,16.09533 L22.66363,16.16469" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+    <path d="M23.38199,17.08825 L22.72077,17.09975" stroke="#092AB3" stroke-width="0.04" fill-opacity="0" />
+  </svg>
 
-          geo.attributes.uv.array[i]=(geo.attributes.uv.array[i]/lm)+0.5;
-
-        }
-      }
-
-      }
-
-      function createWindow(){
+  <svg height="50%" id="widthArrow" display ='none' viewBox="0 0 24 24" overflow="visible" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M22.12132,12.62426 L22.80347,11.94247 L22.12132,11.26069 L22.70019,11.26069 L23.38197,11.94247 L22.70019,12.62426 z" stroke="Black" stroke-width="0" fill="#092AB3" fill-opacity="1" />
+    <path d="M1.786941,12.62426 L1.208041,12.62426 L0.5262574,11.94247 L1.208041,11.26069 L1.786941,11.26069 L1.104788,11.94247 z" stroke="Black" stroke-width="0" fill="#092AB3" fill-opacity="1" />
+    <path d="M0.985929,11.9425 L22.92238,11.9425" stroke="#092AB3" stroke-width="0.24" fill-opacity="0" />
+  </svg>
 
 
+  <svg id = 'lengthArrow' display = 'none' height="50%" viewBox="0 0 24 24" overflow="visible" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11.27233,22.10968 L11.95411,22.79183 L12.6359,22.10968 L12.6359,22.68854 L11.95411,23.37033 L11.27233,22.68854 z" stroke="Black" stroke-width="0" fill="#092AB3" fill-opacity="1" />
+    <path d="M11.27233,1.775298 L11.27233,1.196399 L11.95411,0.5146149 L12.6359,1.196399 L12.6359,1.775298 L11.95411,1.093146 z" stroke="Black" stroke-width="0" fill="#092AB3" fill-opacity="1" />
+    <path d="M11.95413,0.9742867 L11.95413,22.91074" stroke="#092AB3" stroke-width="0.24" fill-opacity="0" />
+  </svg>
 
-      }
-
-      function createGUI(){
-        var params ={
-          Height: shedH,
-          Depth: shedD,
-          Width: shedW,
-          AngleP: propH,
-          Overhang: overhang,
-          BoardThickness: MaterialThickness,
-          RenderMode:wireframe,
-          Parts:partMode
-        };
-        const datGui  = new dat.GUI({ autoPlace: true });
-          datGui.add(params,'Height').onChange(function(nv){
-
-            shedH =parseFloat(nv);
-            createGeom();
-          });
-          datGui.add(params,'Depth').onChange(function(nv){
-
-            shedD =parseFloat(nv);
-            createGeom();
-          });
-          datGui.add(params,'Width').onChange(function(nv){
-
-            shedW =parseFloat(nv);
-            createGeom();
-          });;
-
-          datGui.add(params,'AngleP').min(0.6).max(1).step(0.01).onChange(function(nv){
-
-            propH =parseFloat(nv);
-            createGeom();
-          });;
-
-          datGui.add(params,'Overhang').onChange(function(nv){
-
-            overhang =parseFloat(nv);
-            createGeom();
-          });;
-          datGui.add(params,'BoardThickness').onChange(function(nv){
-
-            MaterialThickness =parseFloat(nv);
-            createGeom();
-          });;
-          datGui.add(params,'RenderMode').onChange(function(nv){
-
-            wireframe =nv ;
-            console.log(typeof(nv));
-            createGeom();
-          });
-
-          datGui.add(params,'Parts').onChange(function(nv){
-
-            partMode =nv ;
-            console.log(typeof(nv));
-            createGeom();
-          });
-           datGui.domElement.id = 'gui'
+  <svg id = 'pressure' display = 'none' height="50%" viewBox="0 0 24 24" overflow="visible" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6.649002,23.27448 C5.862099,23.19774 4.89831,22.73672 4.415255,22.1463 C2.435819,19.72715 1.509265,15.16611 4.122021,11.60021 C4.718633,10.78597 5.110523,10.53962 5.338298,9.775794 C5.779779,8.295336 5.110136,7.010423 4.493484,5.306861 C3.659643,3.003371 5.496331,0.6638351 7.968469,0.5821511 L15.87247,0.5864909 C18.33037,0.6787897 19.92516,2.976696 19.32045,5.382546 L18.50328,8.101782 C18.11495,9.052745 18.30649,9.688774 18.99742,10.47477 C22.02067,13.91393 22.20178,18.51834 19.41908,22.05894 C18.91601,22.69904 17.90177,23.18212 17.07349,23.27097 C15.35401,23.45537 13.60094,23.32661 11.86166,23.32655 C10.12241,23.32647 8.371859,23.44243 6.649002,23.27448 z M17.47812,4.94137 C17.82385,3.53317 17.08623,2.514068 15.61866,2.47617 L8.191684,2.474899 C6.654724,2.513709 5.945967,3.555644 6.337773,5.066425 L7.331527,8.325521 C10.32478,6.860627 13.32418,6.814188 16.44221,8.338072 z" stroke="Black" stroke-width="0" fill="#092AB3" fill-opacity="1" />
+  </svg>
 
 
-      }
 
-</script>
+</div>
+
+    <div class="container .bg-light "  id= "sliders">
+        <h2> </h2>
+        <h3>Controls</h3>
+
+<h1>  </h1>
+<div class = "row">
+
+<div class="col">
+    <h6 style="text-align:left" id= "sepLabel" >Sheet Width = 1.2</h6>
+
+ <div class="d-flex justify-content-Left my-4">
+
+  <form class="range-field w-25">
+
+    <input class="border-0" type="range" min="2" max="100" value = "2"  step = "1" id ="widthslider" />
+  </form>
+ <button font-family: "main"  type="button" class="btn btn-white  btn-lg"  id = "pauseButton" >Start</button>
+</div>
+</div>
 
 
-  </body>
+<div class= "col">
+  <h6 style="text-align:left" id= "lengthLabel">Length Slider = 1</h6>
+
+ <div class="d-flex justify-content-Left my-4">
+
+  <form class="range-field w-25">
+    <input class="border-0" type="range" min="2" max="100" value = "2" step = "1" id ="lengthSlider" />
+  </form>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+</main>
+
+  </div>
+
+</footer>
 </html>
