@@ -146,6 +146,8 @@ loadGeom();
 animate();
 createHTMLElements();
   var titleBar;
+  var mattracker= 0; 
+  var materialbutton;
 var colorPicker;
 function createHTMLElements(){
 
@@ -237,6 +239,28 @@ function createHTMLElements(){
       console.log("0x" +colorPicker.value.substring(1));
       siliconMaterial.color = new THREE.Color(colorPicker.value);;
     }
+	
+	materialbutton = document.createElement("BUTTON");
+	drawingSurface.appendChild(materialbutton);
+	materialbutton.onmouse = function(){
+	mattracker++;
+	mattracker =mattracker%4;
+	if(mattracker = 0){
+	mesh.material  = siliconMaterial;
+	}
+	if(mattracker = 1){
+	mesh.material  = CFMaterial;
+	}if(mattracker = 2){
+	mesh.material  = ResinMaterial;
+	}
+	if(mattracker = 3){
+	mesh.material  = pla;
+	}
+	
+	
+	}
+	
+	
   angleInput = document.createElement("INPUT");
  angleInput.setAttribute("type", "number");
  //angleInput.setAttribute("step", "0.10")
