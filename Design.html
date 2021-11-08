@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/ico" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Whittaker Computational Design Portfolio</title>
+  </head>
+  <body>
+   
+    <canvas id="background"></canvas>   
+
+    <main>
+
+      <header>
+        <a href = "index.html">
+        <h1>Math Whittaker</h1>
+      </a>
+        <p>Computational Design Portfolio</p>
+        <a href = "Design.html">
+        <button type="button">Design Projects</button>
+    </a>
+        <a href="ComputationalDesign.html">
+                  <button type="button" >Computational Tools</button>
+        </a>
+        <a href="Contact.html">
+          <button type="button">Contact</button>
+      </a>
+      </header>
+      
+<section>
+
+
+<h4><u>Filter By Software</u></h4>
+    <select name="SoftwareFilter" id="Soft" onchange="Changed()">
+      <div class = "dContent">
+      <option value="All">All Software</option>
+      <option value="Grasshopper">Grasshopper/Rhino</option>
+      <option value="Houdini">Houdini</option>
+      <option value="Custom">Custom</option>
+    </div>
+    </select>
+  
+</section>
+      <section id="FluidJewl" software = "Grasshopper">
+        
+        <h2><u>Flow Form Jewelery</u></h2>
+        
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       <h4>
+         
+The flow form jewelry was developed based on vector fields on a 3D Triangular mesh. This work initially developed from testing the LionFish plugin I developed for Grasshopper, the plugin exposes various ways to generate and manipulate vector fields on a mesh and then simulate particles flowing across the surface of the geometry based on the vector field. These pieces were produced by initially producing the smoothest boundary aligned vector fields on each starting geometry and then using curves I drew on the surfaces in Rhino to manipulate the vector fields. Then particles were randomly positioned over the shape and simulated for 1000 steps which gave me a curve for each starting point showing their path over the surface. From this I used volumetric modelling techniques to create a 3D mesh which could then be 3D printed in various materials. In the case of the bangle the model was printed in wax and the lost-wax cast into brass and plated in rose gold .
+
+       </h4>
+        
+          <h3>
+            <img  src = "Images/Flow Form Jewelery/brace.png" onclick = "openModal('myModal'); currentSlide(1, 'mySlides','Demo','Caption')" class = "larger">
+          
+          
+            <img src = "Images/Flow Form Jewelery/claireWhite1.png" onclick = "openModal('myModal'); currentSlide(2, 'mySlides','Demo','Caption')" class = "larger">
+      
+            <img src = "Images/Flow Form Jewelery/claireWhite2.png" onclick = "openModal('myModal'); currentSlide(3, 'mySlides','Demo','Caption')" class = "larger">
+          
+         
+            <img src = "Images/Flow Form Jewelery/flowcuff.png" onclick = "openModal('myModal'); currentSlide(4, 'mySlides','Demo','Caption')" class = "larger">
+
+            
+          </h3>
+
+
+
+
+
+        
+        <div id="myModal" class="modal">
+          <span class="close cursor" onclick="closeModal('myModal')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="mySlides">
+              <div class="numbertext">1 / 5</div>
+              <img src="Images/Flow Form Jewelery/brace.png" class = "imgGal">
+            </div>
+        
+            <div class="mySlides">
+              <div class="numbertext">2 / 5</div>
+              <img src="Images/Flow Form Jewelery/claireWhite1.png" class = "imgGal">
+            </div>
+        
+            <div class="mySlides">
+              <div class="numbertext">3 / 5</div>
+              <img src="Images/Flow Form Jewelery/claireWhite2.png" class = "imgGal">
+            </div>
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, 'mySlides','demo','Caption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 'mySlides','demo','Caption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="caption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class="demo" src="Images/Flow Form Jewelery/brace.png" onclick="currentSlide(1, 'mySlides','demo','Caption')" >
+            </div>
+        
+            <div class="column">
+              <img class="demo" src="Images/Flow Form Jewelery/claireWhite1.png" onclick="currentSlide(2, 'mySlides','demo','Caption')">
+            </div>
+        
+            <div class="column">
+              <img class="demo" src="Images/Flow Form Jewelery/claireWhite2.png" onclick="currentSlide(3, 'mySlides','demo','Caption')">
+            </div>
+        
+            
+          </div>
+        </div>
+      
+      </section>
+
+
+
+
+
+
+
+
+
+      <section id = "CotreeJewl" software = "Grasshopper">
+        
+        <h2><u>CoTree Jewelery</u></h2>
+        
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+        <h4>Cotree Jewelry was created through the LionFish plugin I developed for Grasshopper which includes an implementation of the Cotree algorith by Keenan Crane. This algorithm produces two different tree structures, one is based on the initial triangle mesh you feed into the algorithm and the other is produced from the dual of the initial mesh. The algorithm asks for an initial growth point and then iterates through each face of the Half-edge Mesh structure to select edges which when joined back together either create the leaf vein structure shown below or a hexagonal based structure. As a tool for creating patterns this algorithm is not only incredibly efficient but also combines the natural aesthetic we are often drawn to with a high level of organisation and complexity which can be achieved with computational design techniques. </h4>
+        <a href ="https://www.cs.cmu.edu/~kmcrane/Projects/DDG/paper.pdf" style = "color:white;"><h4>Link:  CoTree algorithm Paper</h4> </a>  
+        
+        <h3>
+            <img  src = "Images/CoTree/IMG_7813ColorChangedSquare.JPG" onclick = "openModal('SecondModal'); currentSlide(1, 'SecondSlides','SecondDemo','SecondCaption')" class = "larger">
+          
+          
+            <img src = "Images/CoTree/IMG_7837ColorChanged.JPG" onclick = "openModal('SecondModal'); currentSlide(2, 'SecondSlides','SecondDemo','SecondCaption')" class = "larger">
+            <img src = "Images/CoTree/IMG_8013.JPG" onclick = "openModal('SecondModal'); currentSlide(3, 'SecondSlides','SecondDemo','SecondCaption')" class = "larger">
+      
+            <img src = "Images/CoTree/braceletsx2-11.03.21.png" onclick = "openModal('SecondModal'); currentSlide(4, 'SecondSlides','SecondDemo','SecondCaption')" class = "larger">
+          
+            
+          </h3>
+
+
+
+
+
+        
+        <div id="SecondModal" class="modal">
+          <span class="close cursor" onclick="closeModal('SecondModal')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="SecondSlides">
+              <div class="numbertext">1 / 5</div>
+              <img src="Images/CoTree/IMG_7813ColorChangedSquare.JPG" class = "imgGal">
+            </div>
+        
+            <div class="SecondSlides">
+                <div class="numbertext">2 / 5</div>
+                <img src="Images/CoTree/IMG_7837ColorChanged.JPG" class = "imgGal">
+              </div>
+
+              <div class="SecondSlides">
+                <div class="numbertext">2 / 5</div>
+                <img src="Images/CoTree/IMG_8013.JPG" class = "imgGal">
+              </div>
+        
+            <div class="SecondSlides">
+              <div class="numbertext">3 / 5</div>
+              <img src="Images/CoTree/braceletsx2-11.03.21.png" class = "imgGal">
+            </div>
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, 'SecondSlides','SecondDemo','SecondCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 'SecondSlides','SecondDemo','SecondCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="SecondCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class="demo" src="Images/CoTree/IMG_7813ColorChangedSquare.JPG" onclick="currentSlide(1, 'SecondSlides','SecondDemo','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class="demo" src="Images/CoTree/IMG_7837ColorChanged.JPG" onclick="currentSlide(2, 'SecondSlides','SecondDemo','Caption')">
+              </div>
+              <div class="column">
+                <img class="demo" src="Images/CoTree/IMG_8013.JPG" onclick="currentSlide(3, 'SecondSlides','SecondDemo','Caption')">
+              </div>
+        
+            <div class="column">
+              <img class="demo" src="Images/CoTree/braceletsx2-11.03.21.png" onclick="currentSlide(4, 'SecondSlides','SecondDemo','Caption')">
+            </div>
+        
+            
+          </div>
+        </div>
+      
+      </section>
+
+
+
+      <section id= "particle" software  = "Grasshopper">
+        
+        <h2><u>Particle Physics Table</u></h2>
+        
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+
+        <h4>This project was created as my final project for my BA
+            3D Design. The Piece was inspired by diagrams from
+            bubble chambers which are an instrument formerly used
+            in particle physics to track the movements of subatomic
+            particle. I started off by simulating a group of protons in a
+            magnetic field and tracking their paths to generate
+            patterns. This simulation had many different parameters
+            including the field strength,polarity and decay rate which
+            could be altered almost indefinitely, this meant that
+            there could be an almost infinite number of patterns
+            .Some Patterns would prove more useful for the
+             as a coffee table than others so I used an
+             solver to iterate through designs and find
+             ones with the best properties for creating a coffee
+             including stability and flat top. The form was then
+             into parts which once assembled would lock in place
+             take high level of weight (60kg +).After this the glass
+             was placed on, the top matches the flat profile of the
+             as well as intentionally lookin precarious and
+             to match the state of many subatomic particles
+            
+            
+            
+
+</h4>
+        
+          <h3>
+            <img  src = "Images/CoffeeTable/0.jpg" onclick = "openModal('4m'); currentSlide(1, '4S','4D','FourthCaption')" class = "larger">
+          
+          
+            <img src = "Images/CoffeeTable/1.jpg" onclick = "openModal('4m'); currentSlide(2, '4S','4D','FourthCaption')" class = "larger">
+            <img src = "Images/CoffeeTable/2.jpg" onclick = "openModal('4m'); currentSlide(3, '4S','4D','FourthCaption')" class = "larger">
+      
+            <img src = "Images/CoffeeTable/3.jpg" onclick = "openModal('4m'); currentSlide(4, '4S','4D','FourthCaption')" class = "larger">
+          
+            
+          </h3>
+
+
+
+
+
+        
+        <div id="4m" class="modal">
+          <span class="close cursor" onclick="closeModal('4m')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="4S">
+              <div class="numbertext">1 / 5</div>
+              <img src="Images/CoffeeTable/0.jpg" class = "imgGal">
+            </div>
+        
+            <div class="4S">
+                <div class="numbertext">2 / 5</div>
+                <img src="Images/CoffeeTable/1.jpg" class = "imgGal">
+              </div>
+
+              <div class="4S">
+                <div class="numbertext">2 / 5</div>
+                <img src="Images/CoffeeTable/2.jpg" class = "imgGal">
+              </div>
+        
+            <div class="4S">
+              <div class="numbertext">3 / 5</div>
+              <img src="Images/CoffeeTable/3.jpg" class = "imgGal">
+            </div>
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, '4S','4D','FourthCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, '4S','4D','FourthCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="FourthCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class="demo" src="Images/CoffeeTable/0.jpg" onclick="currentSlide(1, '4S','4D','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class="demo" src="Images/CoffeeTable/1.jpg" onclick="currentSlide(2, '4S','4D','Caption')">
+              </div>
+              <div class="column">
+                <img class="demo" src="Images/CoffeeTable/2.jpg" onclick="currentSlide(3, '4S','4D','Caption')">
+              </div>
+        
+            <div class="column">
+              <img class="demo" src="Images/CoffeeTable/3.jpg" onclick="currentSlide(4, '4S','4D','Caption')">
+            </div>
+        
+            
+          </div>
+        </div>
+      
+      </section>
+
+
+
+
+
+
+
+
+<section id ="City" software = "Grasshopper">
+      <h2><u>Parametric City Plan</u></h2>
+        
+      <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+     
+
+      <h4>Whilst studying for my Masters of Design at Harvard University one project tasked us with designing a city. To do this I started off by dividing the plot into different site specific zones using a voronoi diagram. Then designed the rode networks by creating a rectangular grid in each zone and then simulating the grid as a spring system in order to maximise the efficiency of the road networks. I took the lots that were left as a result and designated their functoin based on their area, smaller plots became high rise structures where as larger plots were either shorter buildings or public parks. Finally the High rise buildings were then modified using sunlight analysis to insure their shadows wouldn't cause large dark areas in the proposed city.</h4>
+          
+          
+
+
+      
+        <h3>
+          <img  src = "Images/CityDesign/0.jpg" onclick = "openModal('5m'); currentSlide(1, '5S','5D','FithCaption')" class = "larger">
+        
+        
+          <img src = "Images/CityDesign/finalboard1.jpg" onclick = "openModal('5m'); currentSlide(2, '5S','5D','FithCaption')" class = "larger">
+         
+        
+          
+        </h3>
+
+
+
+
+
+      
+      <div id="5m" class="modal">
+        <span class="close cursor" onclick="closeModal('5m')">&times;</span>
+        <div class="modal-content">
+      
+          <div class="5S">
+            <div class="numbertext">1 / 5</div>
+            <img src="Images/CityDesign/0.jpg" class = "imgGal">
+          </div>
+      
+          <div class="5S">
+              <div class="numbertext">2 / 5</div>
+              <img src="Images/CityDesign/finalboard1.jpg" class = "imgGal">
+            </div>
+
+            
+      
+         
+      
+          <!-- Next/previous controls -->
+          <a class="prev" onclick="plusSlides(-1, '5S','5D','FithCaption')">&#10094;</a>
+          <a class="next" onclick="plusSlides(1, '5S','5D','FithCaption')">&#10095;</a>
+      
+          <!-- Caption text -->
+          <div class="caption-container">
+            <p id="FithCaption"></p>
+          </div>
+      
+          <!-- Thumbnail image controls -->
+          <div class="column">
+            <img class="5D" src="Images/CityDesign/0.jpg" onclick="currentSlide(1, '5S','5D','Caption')" >
+          </div>
+      
+          <div class="column">
+              <img class="5D" src="Images/CityDesign/finalboard1.jpg" onclick="currentSlide(2, '5S','5D','Caption')">
+            </div>
+         
+      
+          
+        </div>
+      </div>
+    
+    </section>
+
+
+
+
+    <section id = "Pillar" software = "Grasshopper">
+        <h2><u>3D Printed Architectural Pillar</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+  
+        <h4>I created this project whilst studying for my Masters at Harvard University. The initial concept was to look at producing architectural elements using an experimental ceramic 3D printer. The main limitation for this project was the scale of the 3D printer which was limited to producing objects of 25cm x 25cm x 30cm. To overcome this limitation the design was broken into 16 individual parts which were printed in terracotta and then stuck back together before being fired. The geometry was developed in grasshopper drawing inspiration from the work of Antoni Gaudí. The size limitation meant that many of the parts deformed differently through the firing stage however the overall designed geometry was maintained and can be seen here in the pieces
+            
+            
+  
+  </h4>
+        
+          <h3>
+            <img  src = "Images/CermaicPillar/0.jpg" onclick = "openModal('6m'); currentSlide(1, '6S','6D','FourthCaption')" class = "larger">
+          
+          
+            <img src = "Images/CermaicPillar/1.jpg" onclick = "openModal('6m'); currentSlide(2, '6S','6D','FourthCaption')" class = "larger">
+            <img src = "Images/CermaicPillar/2.JPG" onclick = "openModal('6m'); currentSlide(3, '6S','6D','FourthCaption')" class = "larger">
+            <img src = "Images/CermaicPillar/3.jpg" onclick = "openModal('6m'); currentSlide(4, '6S','6D','FourthCaption')" class = "larger">
+           
+            <img src = "Images/CermaicPillar/4.JPG" onclick = "openModal('6m'); currentSlide(5, '6S','6D','FourthCaption')" class = "larger">
+            
+          </h3>
+  
+  
+  
+  
+  
+        
+        <div id="6m" class="modal">
+          <span class="close cursor" onclick="closeModal('6m')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="6S">
+                <div class="numbertext">1 / 5</div>
+                <img src="Images/CermaicPillar/0.jpg" class = "imgGal">
+              </div>
+          
+              <div class="6S">
+                  <div class="numbertext">2 / 5</div>
+                  <img src="Images/CermaicPillar/1.jpg" class = "imgGal">
+                </div>
+  
+                <div class="6S">
+                    <div class="numbertext">3 / 5</div>
+                    <img src="Images/CermaicPillar/2.JPG" class = "imgGal">
+                  </div>
+              
+                  <div class="6S">
+                      <div class="numbertext">4 / 5</div>
+                      <img src="Images/CermaicPillar/3.jpg" class = "imgGal">
+                    </div>
+        
+                    <div class="6S">
+                        <div class="numbertext">5 / 5</div>
+                        <img src="Images/CermaicPillar/4.JPG" class = "imgGal">
+                      </div>
+                  
+            
+              
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, '6S','6D','FithCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, '6S','6D','FithCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="FithCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class="demo" src="Images/CermaicPillar/0.jpg" onclick="currentSlide(1, '6S','6D','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class = "demo" src="Images/CermaicPillar/1.jpg" onclick="currentSlide(2, '6S','6D','Caption')">
+              </div>
+              <div class="column">
+                <img class="demo" src="Images/CermaicPillar/2.JPG" onclick="currentSlide(3, '6S','6D','Caption')">
+              </div>
+        
+              <div class="column">
+                <img class="demo" src="Images/CermaicPillar/3.jpg" onclick="currentSlide(4, '6S','6D','Caption')">
+              </div>
+              <div class="column">
+                <img class="demo" src="Images/CermaicPillar/4.JPG" onclick="currentSlide(5, '6S','6D','Caption')">
+              </div>
+        
+            
+          </div>
+        </div>
+      
+      </section>
+  
+  
+
+
+
+      <section id= "Lampshade" software =  "Grasshopper">
+        <h2><u>Radiolaria Lampshade</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+  
+        <h4>This piece was created during the second year of my BA 3D Design at Manchester School of Art. The inspiration for this piece was looking at the exoskeletons of the marine creature Radiolaria. RadioLarians are microscopic marine animals which create beautifully intricate skeletons around themselves out of silica, these skeletons are intentionally porous to allow food to enter whilst also protecting them. I studied the geometries found in various species of radiolaria before writing a script in Grasshopper to produce patterns, wrap the pattern onto a geometry and then smooth the result. This form was then 3D printed in Nylon through SLS. The result was a beautiful geometry which cast intricate shadow patterns.
+
+            
+            
+  
+  </h4>
+        
+          <h3>
+            <img  src = "Images/Lampshade/IMG_0387.JPG" onclick = "openModal('7m'); currentSlide(1, '7S','7D','FourthCaption')" class = "larger">
+          
+          
+            <img src = "Images/Lampshade/IMG_0389.JPG" onclick = "openModal('7m'); currentSlide(2, '7S','7D','FourthCaption')" class = "larger">
+            <img src = "Images/Lampshade/IMG_0390.JPG" onclick = "openModal('7m'); currentSlide(3, '7S','7D','FourthCaption')" class = "larger">
+            <img src = "Images/Lampshade/IMG_0391.JPG" onclick = "openModal('7m'); currentSlide(4, '7S','7D','FourthCaption')" class = "larger">
+           
+            <img src = "Images/Lampshade/IMG_0392.JPG" onclick = "openModal('7m'); currentSlide(5, '7S','7D','FourthCaption')" class = "larger">
+            
+          </h3>
+  
+  
+  
+  
+  
+        
+        <div id="7m" class="modal">
+          <span class="close cursor" onclick="closeModal('7m')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="7S">
+                <div class="numbertext">1 / 5</div>
+                <img src="Images/Lampshade/IMG_0387.JPG" class = "imgGal" >
+              </div>
+          
+              <div class="7S">
+                  <div class="numbertext">2 / 5</div>
+                  <img src="Images/Lampshade/IMG_0389.JPG" class = "imgGal">
+                </div>
+  
+                <div class="7S">
+                    <div class="numbertext">3 / 5</div>
+                    <img src="Images/Lampshade/IMG_0390.JPG" class = "imgGal">
+                  </div>
+              
+                  <div class="7S">
+                      <div class="numbertext">4 / 5</div>
+                      <img src="Images/Lampshade/IMG_0391.JPG" class = "imgGal">
+                    </div>
+        
+                    <div class="7S">
+                        <div class="numbertext">5 / 5</div>
+                        <img src="Images/Lampshade/IMG_0392.JPG" class = "imgGal">
+                      </div>
+                  
+            
+              
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, '7S','7D','FithCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, '7S','7D','FithCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="FithCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class="demo" src="Images/Lampshade/IMG_0387.JPG" onclick="currentSlide(1, '7S','7D','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class = "demo" src="Images/Lampshade/IMG_0389.JPG" onclick="currentSlide(2, '7S','7D','Caption')">
+              </div>
+              <div class="column">
+                <img class="demo" src="Images/Lampshade/IMG_0390.JPG" onclick="currentSlide(3, '7S','7D','Caption')">
+              </div>
+        
+              <div class="column">
+                <img class="demo" src="Images/Lampshade/IMG_0391.JPG" onclick="currentSlide(4, '7S','7D','Caption')">
+              </div>
+              <div class="column">
+                <img class="demo" src="Images/Lampshade/IMG_0392.JPG" onclick="currentSlide(5, '7S','7D','Caption')">
+              </div>
+        
+            
+          </div>
+        </div>
+      
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+      <section id = "Solen" software = "Grasshopper">
+        <h2><u>Solenopsis</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+  
+        <h4>This range of jewlery was designed using Swarm based simulations. These 'swarms' were trained to mimic the behaivor of ants searching for food sources, hense the ranges name Solenopsis which is the latin name of a Genus of ants including fire ants. The algorithm I wrote could be applied to any jewlery without any changes other than scale and 'world' geometry. This work was then 3D printed in silver or steel to produce the finalized peices.
+            
+            
+  
+  </h4>
+        
+          <h3>
+            <img  src = "Images/Solenopsis/19512054_10158762255150161_1629263190_n.png" onclick = "openModal('8m'); currentSlide(1, '8S','8D','FourthCaption')" class = "larger">
+          
+          
+            <img src = "Images/Solenopsis/earing 2.jpg" onclick = "openModal('8m'); currentSlide(2, '8S','8D','FourthCaption')" class = "larger">
+            <img src = "Images/Solenopsis/earing render 1.jpg" onclick = "openModal('8m'); currentSlide(3, '8S','8D','FourthCaption')" class = "larger">
+            <img src = "Images/Solenopsis/finger ring 2.jpg" onclick = "openModal('8m'); currentSlide(4, '8S','8D','FourthCaption')" class = "larger">
+           
+           
+            
+          </h3>
+  
+  
+  
+  
+  
+        
+        <div id="8m" class="modal">
+          <span class="close cursor" onclick="closeModal('8m')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="8S">
+                <div class="numbertext"> 1 / 4</div>
+                <img src="Images/Solenopsis/19512054_10158762255150161_1629263190_n.png" class = "imgGal" >
+              </div>
+          
+              <div class="8S">
+                  <div class="numbertext"> 2 / 4</div>
+                  <img src="Images/Solenopsis/earing 2.jpg" class = "imgGal">
+                </div>
+  
+                <div class="8S">
+                    <div class="numbertext"> 3 / 4</div>
+                    <img src="Images/Solenopsis/earing render 1.jpg" class = "imgGal">
+                  </div>
+              
+                  <div class="8S">
+                      <div class="numbertext"> 4 / 4</div>
+                      <img src="Images/Solenopsis/finger ring 2.jpg" class = "imgGal">
+                    </div>
+        
+              
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, '8S','8D','FithCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, '8S','8D','FithCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="FithCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class="demo" src="Images/Solenopsis/19512054_10158762255150161_1629263190_n.png" onclick="currentSlide(1, '8S','8D','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class="demo" src="Images/Solenopsis/earing 2.jpg" onclick="currentSlide(2, '8S','8D','Caption')">
+              </div>
+              <div class="column">
+                <img class="demo" src="Images/Solenopsis/earing render 1.jpg" onclick="currentSlide(3, '8S','8D','Caption')">
+              </div>
+        
+              <div class="column">
+                <img class="demo" src="Images/Solenopsis/finger ring 2.jpg" onclick="currentSlide(4, '8S','8D','Caption')">
+              </div>
+              <div class="column">
+                <img class="demo" src="Images/Lampshade/IMG_0392.JPG" onclick="currentSlide(5, '8S','8D','Caption')">
+              </div>
+        
+            
+          </div>
+        </div>
+        <video width = 90% controls  >
+          <source src =  "Images/Solenopsis/Frame_0200.mp4" type ="video/mp4">
+
+        </video>
+      </section>
+
+
+
+
+      <section id = SSeam software = "Grasshopper">
+        <h2><u>Kuka Standing Seam Panels</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+  
+        <h4>
+          This research was done at a private firm where I was tasked with trying to create doubly curved metal elements using a Kuka robot and a custom built mdf vacuum mold. The purpose of this project was to look into the ability of making custom shapes for standing seam roofing techniques through a much faster and more controlled method than is traditionally used .
+          
+        </h4> 
+          <video width = 90% controls>
+              <source src = "Images/StandingSeam/0.mp4">
+
+
+            </video>
+  
+  
+        
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+        
+      
+      </section>
+  
+ 
+
+
+
+
+      
+      <section id = "Tesseract" software = "Custom">
+        <h2><u>Tesseract</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/JavaLog.png" alt="Initial Image" title= "Java" > <img class = "smaller" type = "smaller" src="Logos/Processing Logo.png" alt="Initial Image" title= "Processing"></h3>
+       
+  
+        <h4>This video shows a projection of a 4-Dimensional cube (Tesseract) rotating around its center. The image we see is a projection of the 4D shape into 3-Dimensions. This was written in Java and was an experiment to develop my understanding of higher dimensional shapes. The reason for my interest in higher dimensional geometry comes from an interesting property of higher dimensional space. This property is that there is more “space” the best way to illustrate this is the fact that if you imagine a unit circle inscribed in a cube such that it touches each of the squares edges and then compare the areas of the circle to the rectangle the circle fills ~78% of the squares area. If you then create the same setup in 3D with a sphere and a cube the sphere fills only ~52% of the cubes volume, as you keep increasing dimensions the percentage of the space in the cube that the sphere fills gets smaller and smaller converging towards 0% at infinity. This property can be very powerful in computational design for example, transformations that cause intersections in 3D might not in higher dimensions once you have finished the operations you need you can then project the form back down to 3D without ever creating the intersection issues you would have had if you just work in 3D
+        </h4> 
+          <video width = 90% controls>
+              <source src = "Images/Tesseract/45203431_364318541022552_2179804994889318400_n.mp4">
+            </video>
+  
+  
+        
+      
+      
+      </section>
+
+
+
+
+
+
+      
+      <section id  = "Tiles" software = "Grasshopper">
+        <h2><u>Sound Tiles</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+  
+        <h4>
+          This project was an experiment in the idea of using music to develop geometry.  Within the video below the starting geometry, a flat square mesh, was chosen as I was interested in using the geometries to create ceramic tiles. This would then allow for the colors shown in the simulation to be applied to the physical object through glazing techniques. The initial mesh was carefully developed to have an equal number of vertices as the frequencies I was extracting from the music. Then each vertex was moved in the z-axis by a distance proportional to  the volume of it’s corresponding frequency 
+          
+        </h4>
+          <video width = 90% controls>
+              <source src = "Images/Sound TIles/Untitled - Rhinoceros 5.0 Educational - [Perspective] 10_10_2017 02_30_09.mp4">
+
+
+            </video>
+  
+ 
+        
+      
+      
+      </section>
+
+
+
+
+
+      <section id = "Topo" software = "Grasshopper">
+        <h2><u>Topological Furniture Study</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+    
+        <h4>
+
+          This was a research project I conducted at MIT whilst studying for my Masters. I was researching a method to minimise the amount of material used in furniture construction, as the furniture industry contributes a huge amount to landfill through end of life disposal and even more in the fast fashion away culture. To do this I used a technique called Topological Optimization in order to design minimal structure which also had an interesting aesthetic. To implement this technique I wrote an algorithm in Grasshopper, also using Milllipede. Part of the interest of this research was also looking at how this technique could be used as a design technique rather than the traditional use it has in engineering. I found that there were many ways in which one could manipulate the simulations in order to influence its aesthetics which gave the tool an interesting design aspect whilst also ensuring the designs used the minimum amount of materials. 
+          
+            
+            
+    
+    </h4>
+        
+          <h3>
+            <img  src = "Images/Topo/3d test 2.jpg" onclick = "openModal('9M'); currentSlide(1, '9S','9D','FourthCaption')" class = "larger">
+          
+          
+            <img src = "Images/Topo/asf.jpg" onclick = "openModal('9M'); currentSlide(2, '9S','9D','FourthCaption')" class = "larger">
+            <img src = "Images/Topo/final results.jpg" onclick = "openModal('9M'); currentSlide(3, '9S','9D','FourthCaption')" class = "larger">
+            <img src = "Images/Topo/no base variation.jpg" onclick = "openModal('9M'); currentSlide(4, '9S','9D','FourthCaption')" class = "larger">
+           
+           
+            
+          </h3>
+    
+    
+    
+    
+    
+        
+        <div id="9M" class="modal">
+          <span class="close cursor" onclick="closeModal('9M')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="9S">
+                <div class="numbertext"> 1 / 4</div>
+                <img src="Images/Topo/3d test 2.jpg" class = "imgGal" >
+              </div>
+          
+              <div class="9S">
+                  <div class="numbertext"> 2 / 4</div>
+                  <img src="Images/Topo/asf.jpg" class = "imgGal">
+                </div>
+    
+                <div class="9S">
+                    <div class="numbertext"> 3 / 4</div>
+                    <img src="Images/Topo/final results.jpg" class = "imgGal">
+                  </div>
+              
+                  <div class="9S">
+                      <div class="numbertext"> 4 / 4</div>
+                      <img src="Images/Topo/no base variation.jpg" class = "imgGal">
+                    </div>
+        
+              
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, '9S','9D','FithCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, '9S','9D','FithCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="FithCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class = "demo" src="Images/Topo/3d test 2.jpg" onclick="currentSlide(1, '9S','9D','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class = "demo" src="Images/Topo/asf.jpg" onclick="currentSlide(2, '9S','9D','Caption')">
+              </div>
+              <div class="column">
+                <img class = "demo" src="Images/Topo/final results.jpg" onclick="currentSlide(3, '9S','9D','Caption')">
+              </div>
+        
+              <div class="column">
+                <img class = "demo" src="Images/Topo/no base variation.jpg" onclick="currentSlide(4, '9S','9D','Caption')">
+              </div>
+              <div class="column">
+                <img class = "demo" src="Images/Lampshade/IMG_0392.JPG" onclick="currentSlide(5, '9S','9D','Caption')">
+              </div>
+        
+            
+          </div>
+        </div>
+        <video width = 90% controls  >
+          <source src =  "Images/Topo/tablegrowth.mp4" type ="video/mp4">
+    
+        </video>
+
+
+
+      </section>
+      
+      
+      <section id = Glazing software = "Grasshopper">
+        <h2><u>Robotic Ceramic Glazing</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+       
+    
+        <h4>This research was looking at the robotic application of oxides or glazes for ceramics. I was inspired for this project from previously working with ceramic artists who were highly skilled in decorative oxide and glaze effects. I felt it was interesting that through mass manufacturing this previously important aspect of ceramics had either been lost or condensed down to the simple patterns which can be created using stencils. By using a 3D scanner to obtain an accurate representation of the object I was then able to design patterns through Grasshopper and turn these patterns into tool paths. These toolpaths included returning to stations to reapply the oxides to the brush. 
+
+            
+            
+    
+    </h4>
+        
+          <h3>
+            <img  src = "Images/RoboGlazing/IMG_6206.jpg" onclick = "openModal('10M'); currentSlide(1, '10s','10D','FourthCaption')" class = "larger">
+          
+          
+            <img src = "Images/RoboGlazing/IMG_6224.jpg" onclick = "openModal('10M'); currentSlide(2, '10s','10D','FourthCaption')" class = "larger">
+            <img src = "Images/RoboGlazing/IMG_6233.jpg" onclick = "openModal('10M'); currentSlide(3, '10s','10D','FourthCaption')" class = "larger">
+           
+          </h3>
+    
+    
+    
+    
+    
+        
+        <div id="10M" class="modal">
+          <span class="close cursor" onclick="closeModal('10M')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="10s">
+                <div class="numbertext"> 1 / 4</div>
+                <img src="Images/RoboGlazing/IMG_6206.jpg" class= "imgGal" >
+              </div>
+          
+              <div class="10s">
+                  <div class="numbertext"> 2 / 4</div>
+                  <img src="Images/RoboGlazing/IMG_6224.jpg" class = "imgGal">
+                </div>
+    
+                <div class="10s">
+                    <div class="numbertext"> 3 / 4</div>
+                    <img src="Images/RoboGlazing/IMG_6233.jpg" class = "imgGal">
+                  </div>
+              
+                  
+        
+              
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, '10s','10D','FithCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, '10s','10D','FithCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="FithCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class = "demo" src="Images/RoboGlazing/IMG_6206.jpg" onclick="currentSlide(1, '10s','10D','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class = "demo" src="Images/RoboGlazing/IMG_6224.jpg" onclick="currentSlide(2, '10s','10D','Caption')">
+              </div>
+              <div class="column">
+                <img class = "demo" src="Images/RoboGlazing/IMG_6233.jpg" onclick="currentSlide(3, '10s','10D','Caption')">
+              </div>
+        
+       
+        
+            
+          </div>
+        </div>
+        <video width = 90% controls  >
+          <source src =  "Images/RoboGlazing/robot glazing.mp4" type ="video/mp4">
+    
+        </video>
+      </section>
+
+
+
+
+      <section id=  "interactive" software = "Custom">
+        <h2><u>Museum Interactive Art </u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/Arduino.png" alt="Initial Image" title= "Arduino" > <img class = "smaller" type = "smaller" src="Logos/CplusplusLogo.png" alt="Initial Image" title= "C++" > </h3>
+       
+    
+        <h4>This was a interactive design to convey how busy the museum was to those outside. The musuem has a large collection of butterflys so I chose to fill the chamber with plastic butterflys which were then blown to 3 different levels within the enclosure based on how busy the museum was at the time. The fans were controlled by a Proton board which I coded to communicate with another Proton board at the entrance which would count the number of people entering or leaving the museum 
+            
+            
+    
+    </h4>
+        
+          <h3>
+            <img  src = "Images/Museum/0.jpg" onclick = "openModal('11M'); currentSlide(1, '11s','11D','FourthCaption')" class = "larger">
+          
+          
+            <img src = "Images/Museum/1.jpg" onclick = "openModal('11M'); currentSlide(2, '11s','11D','FourthCaption')" class = "larger">
+            <img src = "Images/Museum/2.jpg" onclick = "openModal('11M'); currentSlide(3, '11s','11D','FourthCaption')" class = "larger">
+           
+          </h3>
+    
+    
+    
+    
+    
+        
+        <div id="11M" class="modal">
+          <span class="close cursor" onclick="closeModal('11M')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="11s">
+                <div class="numbertext"> 1 / 4</div>
+                <img src="Images/Museum/0.jpg" class= "imgGal" >
+              </div>
+          
+              <div class="11s">
+                  <div class="numbertext"> 2 / 4</div>
+                  <img src="Images/Museum/1.jpg" class = "imgGal">
+                </div>
+    
+                <div class="11s">
+                    <div class="numbertext"> 3 / 4</div>
+                    <img src="Images/Museum/2.jpg" class = "imgGal">
+                  </div>
+              
+                  
+        
+              
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, '11s','11D','FithCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, '11s','11D','FithCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="FithCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class = "demo" src="Images/Museum/0.jpg" onclick="currentSlide(1, '11s','11D','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class = "demo" src="Images/Museum/1.jpg" onclick="currentSlide(2, '11s','11D','Caption')">
+              </div>
+              <div class="column">
+                <img class = "demo" src="Images/Museum/2.jpg" onclick="currentSlide(3, '11s','11D','Caption')">
+              </div>
+        
+       
+        
+            
+          </div>
+        </div>
+        <video width = 90% controls  >
+          <source src =  "Images/Museum/demonstration.mp4" type ="video/mp4">
+    
+        </video>
+      </section>
+
+
+
+
+
+
+
+
+ 
+      <section id = "Photog" software = "Custom">
+        <h2><u>Photography Manipulation</u></h2>
+          
+        <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/csharplogo.png" alt="Initial Image" title= "C#" ></h3>
+       
+    
+        <h4>During a class taken at MIT I looked into how one could use images and computational techniques in parallel to make art. The first image was looking at trying to distort a triangular grid based on the features in a photo. This created an image reminiscent of the facial recognition techniques, which when combined with the combination of the subject of the photo was unaware this effect was going to be applied afterwards aims to comment on societies acceptance of intrusive technologies.
+        </h4>
+ 
+        <h4>For the second image I was struck by how wasteful we all have become with photography when compared with the preciousness of film photography. As such, rather than wasting images I wrote code to analyse each of the images based on its average brightness and then rearrange these images into a pattern. As can be seen the darkest images follow an 's' shaped curve going from the top left to the bottom right with the images further away from this curve getting brighter.
+        </h4>
+        
+        <h4>The third image was a commentary on social media such as instagram or pinterest whose platforms rely on their users creating content for them to be engaging. As such I took a selection of black and white images and then wrote code in Java to break each of those images down into its individual pixels and then try to reorganise them all into the instagram logo . The idea was to show that these system are made by us
+        </h4>
+ 
+        <h4>Finally The video illustrates a technique I developed to make the photo editing process far more physically engaging. When taking photographs I was struck by how physically involved this process was for example having to crouch and twist your body to get the correct angle, whereas when editing photographs with image processing softwares you are very static just sitting moving a mouse. In response to this I developed a software which when combined with a Xbox Kinect camera would allow you to control the "brush" with your hand in 3D.  This process would force you to move not only your arm but also crouch and walk around to be able to edit the photo.
+        </h4>
+ 
+ 
+ 
+ 
+          <h3>
+            <img  src = "Images/Photog/0.jpg" onclick = "openModal('12M'); currentSlide(1, '12s','12D','FourthCaption')" class = "larger">
+          
+          
+            <img src = "Images/Photog/1.jpg" onclick = "openModal('12M'); currentSlide(2, '12s','12D','FourthCaption')" class = "larger">
+            <img src = "Images/Photog/2.jpg" onclick = "openModal('12M'); currentSlide(3, '12s','12D','FourthCaption')" class = "larger">
+           
+          </h3>
+    
+    
+    
+    
+    
+        
+        <div id="12M" class="modal">
+          <span class="close cursor" onclick="closeModal('12M')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="12s">
+                <div class="numbertext"> 1 / 4</div>
+                <img src="Images/Photog/0.jpg" class= "imgGal" >
+              </div>
+          
+              <div class="12s">
+                  <div class="numbertext"> 2 / 4</div>
+                  <img src="Images/Photog/1.jpg" class = "imgGal">
+                </div>
+    
+                <div class="12s">
+                    <div class="numbertext"> 3 / 4</div>
+                    <img src="Images/Photog/2.jpg" class = "imgGal">
+                  </div>
+              
+                  
+        
+              
+        
+           
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, '12s','12D','FithCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, '12s','12D','FithCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="FithCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class = "demo" src="Images/Photog/0.jpg" onclick="currentSlide(1, '12s','12D','Caption')" >
+            </div>
+        
+            <div class="column">
+                <img class = "demo" src="Images/Photog/1.jpg" onclick="currentSlide(2, '12s','12D','Caption')">
+              </div>
+              <div class="column">
+                <img class = "demo" src="Images/Photog/2.jpg" onclick="currentSlide(3, '12s','12D','Caption')">
+              </div>
+        
+       
+        
+            
+          </div>
+        </div>
+        <video width = 90% controls  >
+          <source src =  "Images/Photog/PhogVideo.mp4" type ="video/mp4">
+    
+        </video>
+      </section>
+
+
+
+
+
+<!--  -->
+
+
+
+
+
+ 
+<section id = "knitting" software = "Grasshopper"> 
+  <h2><u>2D Knitting algorithm</u></h2>
+    
+  <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/RhinoLogo.png" alt="Initial Image" title= "Rhino" > <img class = "smaller" type = "smaller" src="Logos/grasshopperLogo.jpeg" alt="Initial Image" title= "Grasshopper"></h3>
+ 
+
+  <h4>This was another piece created through my masters whilst studying at MIT. The focus of this project was to take the interlocking logic found in traditional knitting techniques and apply it to sheet fabrication. Through this project I wrote an algorithm which would take any geometry then structurally analyse it under expected loads in order to find areas of high stress. This stress then informed the number of stitches required in each area. The issue with this was that in traditional knitting, to increase or decrease the number of stitches between two rows would require looping behind a stitch which was impossible in sheet fabrication. To overcome this issue I invented a new stitch which allowed for an increase/decrease without self intersections. This algorithm was written in Grasshopper.   
+      
+      
+
+</h4>
+  
+    <h3>
+      <img  src = "Images/Knitting/BreakDown.png" onclick = "openModal('13M'); currentSlide(1, '13s','13D','FourthCaption')" class = "larger">
+    
+    
+      <img src = "Images/Knitting/knitting script.png" onclick = "openModal('13M'); currentSlide(2, '13s','13D','FourthCaption')" class = "larger">
+      <img src = "Images/Knitting/acrylic knitting .jpg" onclick = "openModal('13M'); currentSlide(3, '13s','13D','FourthCaption')" class = "larger">
+     
+    </h3>
+
+
+
+
+
+  
+  <div id="13M" class="modal">
+    <span class="close cursor" onclick="closeModal('13M')">&times;</span>
+    <div class="modal-content">
+  
+      <div class="13s">
+          <div class="numbertext"> 1 / 4</div>
+          <img src="Images/Photog/1.jpg" class= "imgGal" >
+        </div>
+    
+        <div class="13s">
+            <div class="numbertext"> 2 / 4</div>
+            <img src="Images/Photog/2.jpg" class = "imgGal">
+          </div>
+
+          <div class="13s">
+              <div class="numbertext"> 3 / 4</div>
+              <img src="Images/Photog/3.jpg" class = "imgGal">
+            </div>
+        
+            
+  
+        
+  
+     
+  
+      <!-- Next/previous controls -->
+      <a class="prev" onclick="plusSlides(-1, '13s','13D','FithCaption')">&#10094;</a>
+      <a class="next" onclick="plusSlides(1, '13s','13D','FithCaption')">&#10095;</a>
+  
+      <!-- Caption text -->
+      <div class="caption-container">
+        <p id="FithCaption"></p>
+      </div>
+  
+      <!-- Thumbnail image controls -->
+      <div class="column">
+        <img class = "demo" src="Images/Photog/1.jpg" onclick="currentSlide(1, '13s','13D','Caption')" >
+      </div>
+  
+      <div class="column">
+          <img class = "demo" src="Images/Photog/2.jpg" onclick="currentSlide(2, '13s','13D','Caption')">
+        </div>
+        <div class="column">
+          <img class = "demo" src="Images/Photog/3.jpg" onclick="currentSlide(3, '13s','13D','Caption')">
+        </div>
+  
+ 
+  
+      
+    </div>
+  </div>
+ 
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<section id = "CageExpansion" software = "Houdini"> 
+  <h2><u>Cage Inflation</u></h2>
+    
+  <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/HoudiniLogo.png" alt="Initial Image" title= "Houdini" >
+ 
+
+  <h4>This work was an idea of creating the geometry of the sole of a shoe through a simulation of an inflated body within a cage.  The simulation was developed in Houdini and takes a small sphere and a cage geometry based on the voronoi algorithm, the sphere is then inflated and slowly starts bulging through the cage. This method is flexible to user designed parameters. For example if the user wanted to have higher friction in the heel or front of the sole you can increase the density of the cage around those areas which would create more humps which behave like a tread. You can also simulate multiple spheres within the cage, by altering the inflation rate of each sphere you could alter how much sphere protruded through the cage. 
+      
+      
+
+</h4>
+</h3>
+  
+    <h3>
+      <img  src = "Images/ShoeInflation/shoeinflation.png" onclick = "openModal('14M'); currentSlide(1, '14s','14D','FourthCaption')" class = "larger">
+    
+    
+     
+     
+    </h3>
+
+
+
+    <div id="14M" class="modal">
+      <span class="close cursor" onclick="closeModal('14M')">&times;</span>
+      <div class="modal-content">
+    
+        <div class="14s">
+            <div class="numbertext"> 1 / 4</div>
+            <img src="Images/ShoeInflation/shoeinflation.png" class= "imgGal" >
+          </div>
+      
+          
+          
+              
+    
+          
+    
+       
+    
+        <!-- Next/previous controls -->
+        <a class="prev" onclick="plusSlides(-1, '14s','14D','FithCaption')">&#10094;</a>
+        <a class="next" onclick="plusSlides(1, '14s','14D','FithCaption')">&#10095;</a>
+    
+        <!-- Caption text -->
+        <div class="caption-container">
+          <p id="FithCaption"></p>
+        </div>
+    
+        <!-- Thumbnail image controls -->
+        <div class="column">
+          <img class = "demo" src="Images/ShoeInflation/shoeinflation.png" onclick="currentSlide(1, '14s','14D','Caption')" >
+        </div>
+    
+      
+   
+    
+        
+      </div>
+    </div>
+
+
+  
+  
+ 
+</section>
+
+
+
+
+
+
+<section id = "ShoeDeformation" software = "Houdini"> 
+  <h2><u>FEM Sole Deformation</u></h2>
+    
+  <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/HoudiniLogo.png" alt="Initial Image" title= "Houdini" >
+ 
+
+  <h4>This project was an experiment with simulating soft materials such as foam which can be incredibly difficult to simulate and analyse due to their high levels of deformation. Most FEA/FEM tools you find tend to only use linear solvers which work great for stiff materials but for softer materials they become incredibly inaccurate. I used Houdini for this since they have implemented a non-linear solver.  The video below shows a simulation of a foam sole moving downwards and coming into contact with a ground plane. The colors in the simulation illustrate the amount of compression in each area of the mesh.
+      
+      
+
+</h4>
+</h3>
+  
+  
+
+
+  
+  
+<video width = 90% controls  >
+  <source src =  "Images/Shoe Deformation/FEADeformationMulti.mp4" type ="video/mp4">
+
+</video>
+</section>
+
+
+
+
+
+ 
+<section id = "Thesis" software = "Custom"> 
+  <h2><u>Masters Thesis: Custom Garments and Sizing Advice</u></h2>
+    
+  <h3> Softwares: <img class = "smaller" type = "smaller" src="Logos/JavaLog.png" alt="Initial Image" title= "Java" >
+ 
+ 
+  <h4>Through my masters thesis I worked on developing a system to combat vanity sizing in women's fashion. Initially the software I developed in Java would find all the required measurements for designing clothing. The user would input prompt areas for the bust waist and hip locations which insured the software would work for people of all body types. From that over 25 measurements were found and then written to a custom file called .size. This file was encrypted to insure the privacy of the user and then sent either to their phone where it could be used with an app I wrote which would advise them on their size in different stores as well as suggesting whether or not this was a good store for them based on their proportions. The .size file could also be sent to parametric garment designs I developed which would then automatically update to the users measurements and produce cutting files to ensure the garments fit them correctly. 
+      
+      
+ 
+</h4>
+</h3>
+  
+    <h3>
+      <img  src = "Images/Thesis/0.jpg" onclick = "openModal('15M'); currentSlide(1, '15s','15D','FourthCaption')" class = "larger">
+      <img  src = "Images/Thesis/3.jpg" onclick = "openModal('15M'); currentSlide(1, '15s','15D','FourthCaption')" class = "larger">
+      <img  src = "Images/Thesis/4.jpg" onclick = "openModal('15M'); currentSlide(1, '15s','15D','FourthCaption')" class = "larger">
+      <img  src = "Images/Thesis/5.jpg" onclick = "openModal('15M'); currentSlide(1, '15s','15D','FourthCaption')" class = "larger">
+      <img  src = "Images/Thesis/6.jpg" onclick = "openModal('15M'); currentSlide(1, '15s','15D','FourthCaption')" class = "larger">
+      <img  src = "Images/Thesis/7.jpg" onclick = "openModal('15M'); currentSlide(1, '15s','15D','FourthCaption')" class = "larger">
+      <img  src = "Images/Thesis/8.jpg" onclick = "openModal('15M'); currentSlide(1, '15s','15D','FourthCaption')" class = "larger">
+    
+    
+     
+     
+    </h3>
+ 
+ 
+ 
+    <div id="15M" class="modal">
+      <span class="close cursor" onclick="closeModal('15M')">&times;</span>
+      <div class="modal-content">
+    
+        <div class="15s">
+          <div class="numbertext"> 1 / 4</div>
+          <img src="Images/Thesis/0.jpg" class= "imgGal" >
+        </div>
+        <div class="15s">
+          <div class="numbertext"> 1 / 4</div>
+          <img src="Images/Thesis/3.jpg" class= "imgGal" >
+        </div>
+        <div class="15s">
+          <div class="numbertext"> 1 / 4</div>
+          <img src="Images/Thesis/4.jpg" class= "imgGal" >
+        </div>
+        <div class="15s">
+          <div class="numbertext"> 1 / 4</div>
+          <img src="Images/Thesis/5.jpg" class= "imgGal" >
+        </div>
+        <div class="15s">
+          <div class="numbertext"> 1 / 4</div>
+          <img src="Images/Thesis/6.jpg" class= "imgGal" >
+        </div>
+        <div class="15s">
+          <div class="numbertext"> 1 / 4</div>
+          <img src="Images/Thesis/7.jpg" class= "imgGal" >
+        </div>
+        <div class="15s">
+          <div class="numbertext"> 1 / 4</div>
+          <img src="Images/Thesis/8.jpg" class= "imgGal" >
+        </div>
+      
+          
+          
+              
+    
+          
+    
+       
+    
+        <!-- Next/previous controls -->
+        <a class="prev" onclick="plusSlides(-1, '15s','15D','FithCaption')">&#10094;</a>
+        <a class="next" onclick="plusSlides(1, '15s','15D','FithCaption')">&#10095;</a>
+    
+        <!-- Caption text -->
+        <div class="caption-container">
+          <p id="FithCaption"></p>
+        </div>
+    
+        <!-- Thumbnail image controls -->
+        <div class="column">
+          <img class = "demo" src="Images/Thesis/0.jpg" onclick="currentSlide(1, '15s','15D','Caption')" >
+        </div>
+        <div class="column">
+          <img class = "demo" src="Images/Thesis/3.jpg" onclick="currentSlide(1, '15s','15D','Caption')" >
+        </div>
+        <div class="column">
+          <img class = "demo" src="Images/Thesis/4.jpg" onclick="currentSlide(1, '15s','15D','Caption')" >
+        </div>
+        <div class="column">
+          <img class = "demo" src="Images/Thesis/5.jpg" onclick="currentSlide(1, '15s','15D','Caption')" >
+        </div>
+        <div class="column">
+          <img class = "demo" src="Images/Thesis/6.jpg" onclick="currentSlide(1, '15s','15D','Caption')" >
+        </div>
+        <div class="column">
+          <img class = "demo" src="Images/Thesis/7.jpg" onclick="currentSlide(1, '15s','15D','Caption')" >
+        </div>
+        <div class="column">
+          <img class = "demo" src="Images/Thesis/8.jpg" onclick="currentSlide(1, '15s','15D','Caption')" >
+        </div>
+ 
+    
+      
+   
+    
+        
+      </div>
+    </div>
+ 
+ 
+  
+  
+ 
+</section>
+
+
+
+
+      
+
+
+
+
+    </main>
+    
+    <script type="module" src="/main.js"></script>
+
+
+
+    <script>
+      // Open the Modal
+ 
+
+
+
+      function openModal(text) {
+        document.getElementById(text).style.display = "block";
+      }
+      
+      // Close the Modal
+      function closeModal(text) {
+        document.getElementById(text).style.display = "none";
+      }
+      
+      var slideIndex = 1;
+      showSlides(slideIndex);
+      
+      // Next/previous controls
+      function plusSlides(n,  Slides, Demo, Caption) {
+        showSlides(slideIndex += n, Slides, Demo, Caption);
+      }
+      
+      // Thumbnail image controls
+      function currentSlide(n, Slides, Demo, Caption) {
+        showSlides(slideIndex = n, Slides,Demo,Caption);
+      }
+      
+      function showSlides(n, Slides, Demo, Caption) {
+        var i;
+        var slides = document.getElementsByClassName(Slides);
+        var dots = document.getElementsByClassName(Demo);
+        var captionText = document.getElementById(Caption);
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+        captionText.innerHTML = dots[slideIndex-1].alt;
+      }
+      </script>
+
+
+
+<script>
+
+function Changed(){
+var names =  ["knitting","Photog","interactive","Glazing","Topo","Tiles","Tesseract","SSeam","Solen","Lampshade","Pillar","City","particle","CotreeJewl","FluidJewl", "CageExpansion","ShoeDeformation","Thesis"]
+var e = document.getElementById("Soft").value;
+console.log(e);
+if(e == "All"){
+  for(var i =0;  i < names.length; i ++){
+document.getElementById(names[i]).style.display= "block";
+  }
+  return;
+
+}
+for(var i =0;  i < names.length; i ++){
+document.getElementById(names[i]).style.display= "none";
+console.log(document.getElementById(names[i]).getAttribute("software"))
+if(document.getElementById(names[i]).getAttribute("software") == e){
+  document.getElementById(names[i]).style.display= "block";
+}
+  console.log(names[i]);
+}
+
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

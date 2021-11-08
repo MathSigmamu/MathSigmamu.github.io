@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/ico" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Whittaker Computational Design Portfolio</title>
+  </head>
+  <body>
+   
+    <canvas id="background"></canvas>   
+
+    <main>
+
+      <header>
+        <a href = "index.html">
+        <h1>Math Whittaker</h1>
+      </a>
+        <p>Computational Design Portfolio</p>
+        <a href = "Design.html">
+          <button type="button">Design Projects</button>
+      </a>
+        <a href="ComputationalDesign.html">
+                  <button type="button"  >Computational Tools</button>
+        </a>
+        <a href="Contact.html">
+          <button type="button">Contact</button>
+      </a>
+      </header>
+      <section>
+
+
+        <h4><u>Filter By Language</u></h4>
+            <select name="SoftwareFilter" id="Soft" onchange="Changed()">
+              <option value="All">All Languages</option>
+              <option value="c#">C#</option>
+              <option value="c++">C++</option>
+              <option value="javascript">JavaScript</option>
+              <option value="java">Java</option>
+              <option value="three">Three.JS</option>
+              <option value="processing">Processing</option>
+              
+            </select>
+          
+        </section>
+
+      <section id= "LionFish" softwareone = "c#" softwaretwo="c++">
+        
+        <h2><u>Lion Fish Grasshopper Plugin</u></h2>
+        
+        <h3> Languages: <img class = "smaller" type = "smaller" src="Logos/CplusplusLogo.png" alt="Initial Image" title= "C++" > <img class = "smaller" type = "smaller" src="Logos/csharplogo.png" alt="Initial Image" title= "C#" ></h3>
+        <h4>This Project is built on the C++ Geometry Central Library written by Nick Sharp. Using Interop services I have developed a method to expose most of the functions in this library to the Grasshopper environment.  This includes generating Cross,Line and Vector Fields on 3D Triangular meshes as well as multiple tools for manipulating these fields. The plugin also allows for measuring multiple different curvature values on Triangle meshes. Finally It also adds multiple components for geodesics on triangular meshes including geodesic distances, geodesic curves, geodesic bezier curves. All these features allow for new data driven design methods as a the ability to develop hair models in the grasshopper environment.</h4>          
+            <a href = "https://www.food4rhino.com/en/app/lion-fish" style="color:white;"><h4>Food4Rhino LionFish</h4></a>
+        
+          <h3>
+            
+
+ 
+<img  src = "Images/LionFish/Components.png" onclick = "openModal('myModal'); currentSlide(1, 'mySlides','Demo','Caption')" class = "larger">
+              
+<img  src = "Images/LionFish/curvaturesscript.png" onclick = "openModal('myModal'); currentSlide(2, 'mySlides','Demo','Caption')" class = "larger">
+
+          
+          
+            <img src = "Images/LionFish/fieldcreation.png" onclick = "openModal('myModal'); currentSlide(3, 'mySlides','Demo','Caption')" class = "larger">
+      
+            <img src = "Images/LionFish/geodesics.png" onclick = "openModal('myModal'); currentSlide(4, 'mySlides','Demo','Caption')" class = "larger">
+          
+         
+            <img src = "Images/LionFish/linearsolver.png" onclick = "openModal('myModal'); currentSlide(5, 'mySlides','Demo','Caption')" class = "larger">
+
+            
+          </h3>
+
+
+
+
+
+        
+        <div id="myModal" class="modal">
+          <span class="close cursor" onclick="closeModal('myModal')">&times;</span>
+          <div class="modal-content">
+        
+
+            <div class="mySlides">
+              <div class="numbertext">1 / 6</div>
+              <img src="Images/LionFish/Components.png" class = "imgGal">
+            </div>
+
+            <div class="mySlides">
+              <div class="numbertext">2 / 6</div>
+              <img src="Images/LionFish/curvaturesscript.png" class = "imgGal">
+            </div>
+        
+            <div class="mySlides">
+              <div class="numbertext">3 / 6</div>
+              <img src="Images/LionFish/fieldcreation.png" class = "imgGal">
+            </div>
+        
+            <div class="mySlides">
+              <div class="numbertext">4 / 6</div>
+              <img src="Images/LionFish/geodesics.png" class = "imgGal">
+            </div>
+        
+            <div class="mySlides">
+              <div class="numbertext">5 / 6</div>
+              <img src="Images/LionFish/linearsolver.png" class = "imgGal">
+            </div>
+
+            
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, 'mySlides','demo','Caption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 'mySlides','demo','Caption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="caption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+
+            <div class="column">
+              <img class="demo" src="Images/LionFish/Components.png" onclick="currentSlide(1, 'mySlides','demo','Caption')" alt="Nature">
+            </div>
+        
+            <div class="column">
+              <img class="demo" src="Images/LionFish/curvaturesscript.png" onclick="currentSlide(1, 'mySlides','demo','Caption')" alt="Nature">
+            </div>
+        
+            <div class="column">
+              <img class="demo" src="Images/LionFish/fieldcreation.png" onclick="currentSlide(2, 'mySlides','demo','Caption')" alt="Snow">
+            </div>
+        
+            <div class="column">
+              <img class="demo" src="Images/LionFish/geodesics.png" onclick="currentSlide(3, 'mySlides','demo','Caption')" alt="Mountains">
+            </div>
+        
+            <div class="column">
+              <img class="demo" src="Images/LionFish/linearsolver.png" onclick="currentSlide(4, 'mySlides','demo','Caption')" alt="Lights">
+            </div>
+
+          
+          </div>
+        </div>
+      
+      </section>
+
+
+         
+      <section id  = "Geo" softwareone = "c#" softwaretwo = "c++">
+        
+        <h2><u>Geodesic Heat Distance Grasshopper Plugin</u></h2>
+        <h3> Languages:  <img class =  "smaller" src = "Logos/csharplogo.png" alt = "second Image" title= "C#" ></h3>
+        <h4>Through this project I implemented the Heat Method as it was proposed by Keenan Crane at Carnegie Mellon University. This is a method of finding geodesic distances on any triangular manifold based on simulating how heat would distribute over the surface. This project was written in a combination of C++ and C# coding languages. The Grasshopper plugin has three components; the first simulates the heat distribution over the triangular mesh supplied. The second extracts IsoCurves based on the distances  from the first component. Finally the third component splits the mesh into strips based on the distance value supplied . Once split the component reorganises the triangles in each strip to ensure a smooth edge.</h4>
+        <h4></h4>
+        <a href="https://www.food4rhino.com/en/app/geodesic-heat-method" style = "color: white;"><h4>Food4Rhino Geodesic Heat distance</h4></a>
+        <h3> 
+          <img  src ="Images/GeoHeatMethod/heatmethodscript.png" onclick = "openModal('SecondModal'); currentSlide(1, 'SecondSlides', 'SecondDemo','secondCaption')" class = "larger">
+          <img  src = "Images/GeoHeatMethod/bunnyheatmap.jpg" onclick = "openModal('SecondModal'); currentSlide(2, 'SecondSlides', 'SecondDemo','secondCaption')" class = "larger">
+          <img  src =  "Images/GeoHeatMethod/bunnypoint1.jpg" onclick = "openModal('SecondModal'); currentSlide(3, 'SecondSlides', 'SecondDemo','secondCaption')" class = "larger">
+          <img  src = "Images/GeoHeatMethod/isosplit bunny.jpg" onclick = "openModal('SecondModal'); currentSlide(4, 'SecondSlides', 'SecondDemo','secondCaption')" class = "larger">
+          
+        </h3>
+
+
+        <div id="SecondModal" class="modal">
+          <span class="close cursor" onclick="closeModal('SecondModal')">&times;</span>
+          <div class="modal-content">
+        
+            <div class="SecondSlides">
+              <div class="numbertext">1 / 4</div>
+              <img src="Images/GeoHeatMethod/heatmethodscript.png" class = "imgGal">
+            </div>
+        
+            <div class="SecondSlides">
+              <div class="numbertext">2 / 4</div>
+              <img src="Images/GeoHeatMethod/bunnyheatmap.jpg" class = "imgGal">
+            </div>
+        
+            <div class="SecondSlides">
+              <div class="numbertext">3 / 4</div>
+              <img src="Images/GeoHeatMethod/bunnypoint1.jpg" class = "imgGal">
+            </div>
+        
+            <div class="SecondSlides">
+              <div class="numbertext">4 / 4</div>
+              <img src= "Images/GeoHeatMethod/isosplit bunny.jpg" class = "imgGal">
+            </div>
+        
+            <!-- Next/previous controls -->
+            <a class="prev" onclick="plusSlides(-1, 'SecondSlides', 'SecondDemo','secondCaption')">&#10094;</a>
+            <a class="next" onclick="plusSlides(1, 'SecondSlides', 'SecondDemo','secondCaption')">&#10095;</a>
+        
+            <!-- Caption text -->
+            <div class="caption-container">
+              <p id="secondCaption"></p>
+            </div>
+        
+            <!-- Thumbnail image controls -->
+            <div class="column">
+              <img class="SecondDemo" src="Images/GeoHeatMethod/heatmethodscript.png" onclick="currentSlide(1, 'SecondSlides', 'SecondDemo','secondCaption')" alt="Script">
+            </div>
+        
+            <div class="column">
+              <img class="SecondDemo" src="Images/GeoHeatMethod/bunnyheatmap.jpg" onclick="currentSlide(2, 'SecondSlides', 'SecondDemo','secondCaption')" alt="Heat Map">
+            </div>
+        
+            <div class="column">
+              <img class="SecondDemo" src="Images/GeoHeatMethod/bunnypoint1.jpg" onclick="currentSlide(3, 'SecondSlides', 'SecondDemo','secondCaption')" alt="IsoCurves">
+            </div>
+        
+            <div class="column">
+              <img class="SecondDemo" src=" Images/GeoHeatMethod/isosplit bunny.jpg" onclick="currentSlide(4, 'SecondSlides', 'SecondDemo','secondCaption')" alt="Iso Splitting">
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+      
+      
+      </section>
+      <section id = "FlowFoot" softwareone= "java" softwaretwo = "none">
+        
+        <h2><u>Flow Footwear Tool</u></h2>
+        <h3> Languages:  <img class = "smaller" type = "smaller" src="Logos/JavaLog.png" alt="Initial Image" title= "Java" >
+        <h4>
+        
+          This project takes a realistic simulation of fluid interactions and then uses data from the simulation to alter an input model of a sole unit for a shoe. The project was written in Java and OpenGL. The implementation of the Navier Stokes equation runs on the GPU which allows for simulation and interaction to run in real time. The interaction with the software focuses on mainly using the mouse as a paint brush.  When you interact with the simulation you change the velocity of the water and can add in colors which will dissipate through the liquid in the same way food dye dissipates in water. The model of the sole shoe is flattened automatically and the naked edges of this flattened mesh are used for the outer boundary of the fluid simulation, you can also define your own walls allowing for certain areas of the shoe to be designed separately from other parts. Finally there are two main ways within which you can visualize the simulation. The first is by visualizing the color interactions. The second is through visualising the flow lines which are isocurves extracted from the velocity of the field. These two visualisations can be used to manipulate the final mesh. 
+          </h4>
+          <h4></h4>
+        </h3>
+        <video width = 90% controls  >
+          <source src =  "Images/FluidSoftware/FluidVideo.mp4" type ="video/mp4">
+
+        </video>
+      
+      
+      </section>
+      <section id="DifJewl" softwareone ="javascript" softwaretwo ="three" >
+        <h2><u>Differential Line Growth Jewelery Tool</u></h2>
+        <h3> Languages:  <img class = "smaller" type = "smaller" src="Logos/JavascriptLogo.png" alt="Initial Image" title = JavaScript ><img class = "smaller" type = "smaller" src="Logos/threejslogo.png" alt="Initial Image" title= "ThreeJS" >
+        <h4>This project is a 3D development of the previous differential line growth project.  In order to optimize the algorithm I introduced Octrees to dramatically improve the speed of the growth. Using the octrees meant that the number of calculations dropped by an order of magnitude. Secondly in order to extract 3D triangular meshes from the simulation I implemented the Marching cubes algorithm and used an Octree to insure that the mesh did not contain any duplicate points. Using this tool you can select different styles of jewelry and in real time watch the curve grow over the surface. You are also invited to adjust variables in real time; the impact of these changes can then be seen as the curve continues to grow. </h4>
+      <h4></h4>  
+      </h3>
+        <video width = 90% controls  >
+          <source src =  "Images/DifJewl/BraceletDesign.mov" type ="video/mp4">
+
+        </video>
+        
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+      
+    
+
+
+
+      <section id = "Scaled" softwareone= "javascript" softwaretwo = "three">
+        
+        <h2><u>Scaled Customiser Tool</u></h2>
+        
+        <h3> Languages:  <img class = "smaller" type = "smaller" src="Logos/JavascriptLogo.png" alt="Initial Image" title= "JavaScript"><img class = "smaller" type = "smaller" src="Logos/threejslogo.png" alt="Initial Image" title= "ThreeJS">
+        <h4>
+          This project was developed for Scaled Ltd to give them a customizer tool for their website. The project starts off with an easy to use wizard which allows the user to define all the parameters for their required product. After the wizard is complete the tool transitions to giving a 3D view of the product they have designed. The tool relies on WEBGL to instantiate meshes and simulate textures and lighting in the scene.  Whilst in this view the user can still alter parameters to update the design before saving the design which gives them a CSV file containing all the parameters which Scaled can use to drive their grasshopper to produce the final geometry ready for 3D printing.
+          </h4>
+          <h4></h4>
+        </h3>
+        <video width = 90% controls  >
+          <source src =  "Images/Scaled/Scaled.mp4" type ="video/mp4">
+
+        </video>
+      
+      </section>
+
+
+
+      <section id= "DifArt" softwareone= "javascript" softwaretwo = "three">
+        
+        <h2><u>2D Differential Art Software</u></h2>
+        
+        <h3> Languages:  <img class = "smaller" type = "smaller" src="Logos/JavascriptLogo.png" alt="Initial Image" title= "JavaScript"><img class = "smaller" type = "smaller" src="Logos/p5.jpg" alt="Initial Image" title= "P5.js">
+        <h4>This was a free peice of software I wrote in JavaScript based on differential Line growth.  This line growth is very simular to the growth methods found in corals which was my inspiration for the project. The software allows for selection of different set shapes or a custom drawn curves which then grow as a simulation. The growth can be adjusted in real time using parameters allowing you to vary the vissual effect over time. 
+          
+        </h4>
+        <h4></h4>
+        
+        </h3>
+        <video width = 90% controls  >
+          <source src =  "Images/2DDiff/Dif2d.mp4" type ="video/mp4">
+
+        </video>
+      
+      </section>
+
+
+      <section id = "Fermat"  softwareone= "java" softwaretwo = "processing">
+        
+        <h2><u>Fermat Spiral Space Filling</u></h2>
+        
+        <h3> Languages:  <img class = "smaller" type = "smaller" src="Logos/JavaLog.png" alt="Initial Image" title= "Java"><img class = "smaller" type = "smaller" src="Logos/Processing Logo.png" alt="Initial Image" title= "Processing">
+        
+        <h4>
+          This project is based on the paper "Connected Fermat spirals for layered Fabrication". The paper outlines the algorithm for creating paths for 3D printers. However the nature of the algorithm seems ideal for fibre based designs. These Designs were created through C# code which runs within the Grasshopper environment. The fundamental part of the algorithm is that the path will start and end at the same point, it achieves this by initially spiralling inwards until it reaches the center and then spirals back out. The algorithm can deal with multiple spirals and will ensure that there are no places where the path crosses itself.  I applied this algorithm to the upper of a shoe to illustrate the idea of being able to make an upper from one piece of string with no waste .
+        </h4>
+        <h4></h4>
+      </h3>
+        <video width = 90% controls  >
+          <source src =  "Images/Fermat/video.mp4" type ="video/mp4">
+
+        </video>
+      
+      </section>
+
+
+
+
+      <section id= "Leaf"  softwareone= "java" softwaretwo = "processing">
+        
+        <h2><u>Leaf venation</u></h2>
+        
+        <h3> Languages:  <img class = "smaller" type = "smaller" src="Logos/JavaLog.png" alt="Initial Image" title= "Java"><img class = "smaller" type = "smaller" src="Logos/Processing Logo.png" alt="Initial Image" title= "Processing">
+        <h4>This project was based on the paper 'Modeling and visualization of leaf venation patterns' which outlines a method to accurately simulate the growth of leaf veins through a space colonization algorithm. I chose to implement this in grasshopper and then produce 3D geometry through either mapping the geometry to 3D meshes and then using the volumetric modelling plugin Dendro to create 3D printable object. Through this project I produced a 3D printed bracelet in nylon and also designed a table in which the simulation starts from each of the legs independantly.  </h4>
+      <h4></h4>  
+      </h3>
+        <video  controls height-max = 100wv >
+          <source src =  "Images/Venation/LeafVenation.mov" type ="video/mp4">
+
+        </video>
+      
+      </section>
+ 
+
+
+
+      <section id = "sketching"    softwareone= "java" softwaretwo = "processing">
+        
+        <h2><u>Proximity Drawing Software</u></h2>
+        
+        <h3> Languages:  <img class = "smaller" type = "smaller" src="Logos/JavaLog.png" alt="Initial Image" title= "Java"><img class = "smaller" type = "smaller" src="Logos/Processing Logo.png" alt="Initial Image" title= "Processing">
+        <h4>
+          The proximity design software was developed as a piece of free art software based on the simple idea of connecting points within a given proximity. As the user moves the mouse points are laid down as each point is added the software uses a quad tree to check if there are any other points in its vicinity, any points close enough will be connected with a line.  The result is a form of smooth line art which grows in real time 
+          </h4>
+          <h4></h4>
+        </h3>
+        <video  controls height-max = 100wv id = "LineSoftwareVid">
+          <source src =  "Images/LineSketch/frame0.mp4" type ="video/mp4">
+
+        </video>
+      
+      </section>
+      
+  
+
+      
+
+
+
+
+
+  
+
+
+
+
+
+
+     
+
+      
+
+
+    </main>
+    
+    <script type="module" src="/main.js"></script>
+
+
+
+    <script>
+      // Open the Modal
+ 
+
+
+
+      function openModal(text) {
+        document.getElementById(text).style.display = "block";
+      }
+      
+      // Close the Modal
+      function closeModal(text) {
+        document.getElementById(text).style.display = "none";
+      }
+      
+      var slideIndex = 1;
+      showSlides(slideIndex);
+      
+      // Next/previous controls
+      function plusSlides(n,  Slides, Demo, Caption) {
+        showSlides(slideIndex += n, Slides, Demo, Caption);
+      }
+      
+      // Thumbnail image controls
+      function currentSlide(n, Slides, Demo, Caption) {
+        showSlides(slideIndex = n, Slides,Demo,Caption);
+      }
+      
+      function showSlides(n, Slides, Demo, Caption) {
+        var i;
+        var slides = document.getElementsByClassName(Slides);
+        var dots = document.getElementsByClassName(Demo);
+        var captionText = document.getElementById(Caption);
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+        captionText.innerHTML = dots[slideIndex-1].alt;
+      }
+      </script>
+
+
+
+
+
+
+<script>
+
+
+var vid = document.getElementById("LineSoftwareVid");
+vid.playbackRate = 3.0;
+</script>
+
+
+<script>
+
+  function Changed(){
+  var names =  ["sketching","Leaf","Fermat","DifArt","Scaled","DifJewl","FlowFoot","Geo","LionFish"]
+  var e = document.getElementById("Soft").value;
+  console.log(e);
+  if(e == "All"){
+    for(var i =0;  i < names.length; i ++){
+  document.getElementById(names[i]).style.display= "block";
+    }
+    return;
+  
+  }
+  for(var i =0;  i < names.length; i ++){
+  document.getElementById(names[i]).style.display= "none";
+  console.log(document.getElementById(names[i]).getAttribute("software"))
+  if(document.getElementById(names[i]).getAttribute("softwareone") == e||document.getElementById(names[i]).getAttribute("softwaretwo") == e ){
+    document.getElementById(names[i]).style.display= "block";
+  }
+    console.log(names[i]);
+  }
+  
+  }
+  
+  </script>
+
+
+
+  </body>
+</html>
